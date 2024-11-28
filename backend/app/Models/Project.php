@@ -12,6 +12,19 @@ class Project extends Model
     use HasFactory;
     protected $table = 'projects'; // Bảng mà model này liên kết
     use SoftDeletes;
+
+    protected $fillable = [
+        'name',
+        'description',
+        'goal_amount',
+        'collected_amount',
+        'status',
+        'start_day',
+        'end_day',
+        'create_by',
+        'cate_id',
+    ];
+
     protected $guarded = [];
     public function creator()
     {

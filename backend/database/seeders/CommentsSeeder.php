@@ -14,8 +14,8 @@ class CommentsSeeder extends Seeder
     {
         //
         DB::table('comments')->insert([
-            ['content' => 'Great initiative!', 'parent_comment_id' => null, 'project_id' => 9, 'user_id' => 1],
-            ['content' => 'How can I contribute?', 'parent_comment_id' => null,'project_id' => 10, 'user_id' => 2],
+            ['content' => 'Great initiative!', 'parent_comment_id' => null, 'project_id' => 1, 'user_id' => 1],
+            ['content' => 'How can I contribute?', 'parent_comment_id' => null,'project_id' => 2, 'user_id' => 2],
             // Add more comments as needed
         ]);
     }
