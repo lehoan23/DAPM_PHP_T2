@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Mail\MyTestEmail;
+use App\Mail\ResetPassword;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,11 +31,7 @@ use App\Http\Controllers\AuthController;
 Route::get('/', function () {
     return view('welcome');
 });
-// Route::get('/login', function () {
-//     return view('SignIn.index');
-// })->name('login');
-
-// // Route::get('/manageuser', function () {
-// //     return view('Pages.Admin.users.index');
-// // })->name('login');
-// Route::get('/admin', [AuthController::class, 'index'])->middleware('auth:api')->name('admin');
+Route::get('/testemail', function () {
+    $name = "funny Coder";
+    Mail::to('levanbinhdinh22@gmail.com')->send(new MyTestEmail($name));
+});

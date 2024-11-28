@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\VerifyEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Hash;
-
 class AuthController extends Controller
 {
     /**
@@ -34,15 +37,24 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);
         }
-
+        // Tạo token
+        $verificationToken = Str::random(64);
         $user = new User;
         $user->username = request()->username;
         $user->email = request()->email;
         $user->password = bcrypt(request()->password);
         $user->role_id = 3; // User mặc định
+        $user->email_verification_token = $verificationToken;
         $user->save();
+        // Tạo token
 
-        return response()->json($user, 201);
+        $actionURL = url('api/auth/verify-email?token=' . $verificationToken);
+
+        // Gửi email xác nhận
+        Mail::to($user->email)->send(new VerifyEmail($actionURL));
+
+        return response()->json(['message' => 'Registration successful! Please verify your email.'], 201);
+
     }
 
     public function login()
@@ -57,7 +69,9 @@ class AuthController extends Controller
 
         // Lấy thông tin user hiện tại
         $user = auth()->user();
-
+        if ($user->email_verification_token != null) {
+            return response()->json(['error' => 'Unauthorized: Email is not verified'], 401);
+        }
         // Kiểm tra vai trò của user
         switch ($user->role_id) {
             case 1:
@@ -170,12 +184,12 @@ class AuthController extends Controller
                 'phone_number.required' => 'Nhập phone number',
                 'phone_number.max' => 'Kí tự tối đa là 255',
             ]);
-    
+
         $user = User::find($id);
-        if (! $user) {
+        if (!$user) {
             return response()->json(['error' => 'User not found'], 404);
         }
-    
+
         $user->update([
             'username' => $request->username,
             'email' => $request->email,
@@ -183,6 +197,57 @@ class AuthController extends Controller
             'address' => $request->address,
         ]);
         return response()->json(['message' => 'User updated successfully']);
+    }
+
+    public function sendMailResetPassword(Request $request)
+    {
+        // Lấy thông tin user hiện tại từ token
+        $currentUser = auth('api')->user();
+        // $id = auth('api')->user()->id;
+
+        if (!$currentUser) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        $email = $currentUser->email;
+        $token = Str::random(60);
+        $actionURL = url('api/auth/verify-password?token=' . $token);
+        DB::table('password_reset_tokens')->updateOrInsert(
+            ['email' => $email],
+            ['token' => $token, 'created_at' => now()]
+        );
+        // Gửi email xác nhận
+        Mail::to($email)->send(new VerifyEmail($actionURL));
+        return response()->json(['message' => 'Please verify your email.'], 201);
+    }
+    public function updatePassword(Request $request){
+        // Lấy thông tin user hiện tại từ token
+        $currentUser = auth('api')->user();
+        // $id = auth('api')->user()->id;
+
+        if (!$currentUser) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $validated = $request->validate([
+            'password' => 'required|min:8|confirmed',
+        ],
+            [
+                'password.required' => 'Hãy nhập password',
+                'password.min' => 'Password phải tối thiểu 8 kí tự',
+                'password.confirmed' => 'Password phải trùng khớp',
+            ]);
+        $old_password = $currentUser->password;
+        $new_password = $request->input('password');
+        $token_changed_password = DB::table('password_reset_tokens')->where('email', $currentUser->email)->first();
+        if($token_changed_password->token == null){
+            DB::table('users')->update([
+                'password' => Hash::make($new_password)
+            ]);
+            return response()->json(['message' => 'Password updated successfully']);
+        }
+        else {
+            return response()->json(['error' => 'Found'], 404);
+        }
     }
 
 }

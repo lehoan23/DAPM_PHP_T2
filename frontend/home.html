@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      text-align: center;
+      background: #fff;
+      padding: 20px 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 90%;
+    }
+    h1 {
+      color: #002559;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 30px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 10px 5px;
+      color: #fff;
+      background: #007bff;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to Home</h1>
+    <p>Hello, thank you for visiting our platform. Please select an option below.</p>
+    <a href="./profile.html" class="btn">View Profile</a>
+    <button id="logout-btn" class="btn">Logout</button>
+  </div>
+  <script>
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+      // Lấy accessToken từ localStorage
+      const accessToken = localStorage.getItem('access_token');
+
+      if (!accessToken) {
+        alert('No access token found. Please login again.');
+        window.location.href = 'http://127.0.0.1:5500/frontend/login.html';
+        return;
+      }
+
+      try {
+        // Gửi yêu cầu logout đến API
+        const response = await fetch('http://127.0.0.1:8000/api/auth/logout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        });
+
+        if (response.ok) {
+          // Xóa token khỏi localStorage
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          alert('Logout successful!');
+          // Chuyển hướng đến trang login
+          window.location.href = './login.html';
+        } else {
+          const errorData = await response.json();
+          alert(`Failed to logout: ${errorData.message || 'Unknown error'}`);
+        }
+      } catch (error) {
+        console.error('Error during logout:', error);
+        alert('An error occurred while logging out. Please try again.');
+      }
+    });
+  </script>
+</body>
+</html>
