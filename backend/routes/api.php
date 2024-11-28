@@ -81,6 +81,7 @@ Route::group([
     //Nhungx route có role là user
     Route::group(['middleware' => ['auth:api', 'auth.user']], function () {
         Route::get('/get-registered-project', [PaymentController::class, 'getRegisteredProject']);
+        Route::post('/create-payment', [PaymentController::class, 'createPayment']);
     });
     //Nhung route co role la creator : done
     Route::group(['middleware' => ['auth:api', 'auth.creator']], function () {
