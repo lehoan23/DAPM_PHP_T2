@@ -77,7 +77,7 @@ Route::group([
         }
         return response('Invalid or expired token.', 400);
     });
-    Route::post('/update-password', [AuthController::class,'updatePassword'])->middleware('auth:api');
+    Route::put('/update-password', [AuthController::class,'updatePassword'])->middleware('auth:api');
     //Nhungx route có role là user
     Route::group(['middleware' => ['auth:api', 'auth.user']], function () {
         Route::get('/get-registered-project', [PaymentController::class, 'getRegisteredProject']);
@@ -92,14 +92,14 @@ Route::group([
         //lấy chi tiết project theo id
         Route::get('/creator/project-edit/{id}', [CreatorController::class, 'getEditProject']);
         //lấy chi tiết pending project theo id
-        Route::get('/creator/pending_project-edit/{id}', [CreatorController::class, 'getEditPendingProject']);
+        // Route::get('/creator/pending_project-edit/{id}', [CreatorController::class, 'getEditPendingProject']);
         //update project da duyet
         Route::put('/creator/project-update/{id}', [CreatorController::class, 'updateProject']);
         //update project chua duyet
-        Route::put('/creator/pending_project-update/{id}', [CreatorController::class, 'updateProjectPending']);
+        // Route::put('/creator/pending_project-update/{id}', [CreatorController::class, 'updateProjectPending']);
     });
 
-    //Nhung route co role la admin : chua test
+    //Nhung route co role la admin 
     Route::group(['middleware' => ['auth:api', 'auth.admin']], function () {
         //lay danh sach pending project
         Route::get('/admin/pending_project', [AdminController::class, 'getListPendingProject']);

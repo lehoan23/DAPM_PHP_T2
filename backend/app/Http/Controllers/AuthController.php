@@ -219,35 +219,45 @@ class AuthController extends Controller
         Mail::to($email)->send(new VerifyEmail($actionURL));
         return response()->json(['message' => 'Please verify your email.'], 201);
     }
-    public function updatePassword(Request $request){
+    public function updatePassword(Request $request)
+    {
         // Lấy thông tin user hiện tại từ token
         $currentUser = auth('api')->user();
-        // $id = auth('api')->user()->id;
-
+    
         if (!$currentUser) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
-        $validated = $request->validate([
-            'password' => 'required|min:8|confirmed',
-        ],
-            [
-                'password.required' => 'Hãy nhập password',
-                'password.min' => 'Password phải tối thiểu 8 kí tự',
-                'password.confirmed' => 'Password phải trùng khớp',
-            ]);
-        $old_password = $currentUser->password;
+    
         $new_password = $request->input('password');
+    
+        // Thực hiện xác thực dữ liệu
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|confirmed|min:8',
+        ], [
+            'password.required' => 'Hãy nhập password',
+            'password.min' => 'Password phải tối thiểu 8 kí tự',
+            'password.confirmed' => 'Password phải trùng khớp',
+        ]);
+    
+        // Kiểm tra nếu xác thực thất bại
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+    
+        // Kiểm tra token trong bảng `password_reset_tokens`
         $token_changed_password = DB::table('password_reset_tokens')->where('email', $currentUser->email)->first();
-        if($token_changed_password->token == null){
-            DB::table('users')->update([
+    
+        if ($token_changed_password && $token_changed_password->token === null) {
+            // Cập nhật mật khẩu mới
+            DB::table('users')->where('id', $currentUser->id)->update([
                 'password' => Hash::make($new_password)
             ]);
-            return response()->json(['message' => 'Password updated successfully']);
-        }
-        else {
-            return response()->json(['error' => 'Found'], 404);
+    
+            return response()->json(['message' => 'Password updated successfully'], 200);
+        } else {
+            return response()->json(['error' => 'Invalid token'], 404);
         }
     }
+    
 
 }

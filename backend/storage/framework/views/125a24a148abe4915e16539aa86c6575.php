@@ -59,9 +59,9 @@
     <div class="container">
         <h1>🎉 Email Verified Successfully!</h1>
         <p>Thank you for verifying your email. Your account is now active, and you can log in to start using our services.</p>
-        <a href="../../../../frontend/login.html" class="btn">Go to Login</a>
+        <a href="<?php echo e(url('http://127.0.0.1:5500/frontend/login.html')); ?>" class="btn">Go to Login</a>
         <div class="footer">
-            &copy; <?php echo e(date('Y')); ?> TechStore. All rights reserved.
+            &copy; <?php echo e(date('Y')); ?> GiveNow. All rights reserved.
         </div>
     </div>
 </body>

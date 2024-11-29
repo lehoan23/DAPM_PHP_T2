@@ -266,24 +266,13 @@ class AdminController extends Controller
         if (!$currentUser) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        $pendingProject = PendingProject::findOrFail($id);
+        $pendingProject = Project::findOrFail($id);
         $status = "Active";
-        // Thêm vào bảng projects
-        Project::create([
-            'name' => $pendingProject->name,
-            'description' => $pendingProject->description,
-            'goal_amount' => $pendingProject->goal_amount,
-            'collected_amount' => $pendingProject->collected_amount,
-            'status' => $status,
-            'start_date' => $pendingProject->start_date,
-            'end_date' => $pendingProject->end_date,
-            'create_by' => $pendingProject->create_by,
-            'cate_id' => $pendingProject->cate_id,
-        ]);
-
-        // Xóa dự án khỏi bảng pending_projects
-        $pendingProject->delete();
-
+        if($pendingProject){
+            // Update trạng thái dự án
+            $pendingProject->status = $status;
+            $pendingProject->save();
+        }
         return response()->json(['message' => 'Dự án đã được phê duyệt.'], 200);
     }
 
@@ -297,9 +286,8 @@ class AdminController extends Controller
         if (!$currentUser) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        $pendingProject = PendingProject::findOrFail($id);
+        $pendingProject = Project::findOrFail($id);
 
-        // Xóa dự án khỏi bảng pending_projects
         $pendingProject->delete();
 
         return response()->json(['message' => 'Dự án đã bị từ chối.'], 200);

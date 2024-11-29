@@ -35,5 +35,5 @@ class Payment extends Model
         return $this->belongsTo(Project::class);
     }
 
-    protected $guarded = [];
+    // protected $guarded = [];
 }
