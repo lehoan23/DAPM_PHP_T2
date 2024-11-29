@@ -7,10 +7,11 @@ paths:
   /api/auth/register:
     post:
       summary: Register a new user
-      description: Endpoint for users to register by providing their username, email, and password.
+      description: This endpoint allows a new user to register by providing their username, email, and password. After registration, an email verification link will be sent to their email address.
       tags:
         - Auth
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -18,16 +19,22 @@ paths:
               properties:
                 username:
                   type: string
+                  description: The desired username for the new user.
                   example: "john_doe"
                 email:
                   type: string
                   format: email
-                  example: "john@example.com"
+                  description: The user's email address, which must be unique.
+                  example: "john_doe@example.com"
                 password:
                   type: string
+                  format: password
+                  description: The user's password (minimum 8 characters). Must be confirmed.
                   example: "password123"
                 password_confirmation:
                   type: string
+                  format: password
+                  description: Confirmation of the user's password.
                   example: "password123"
               required:
                 - username
@@ -36,33 +43,31 @@ paths:
                 - password_confirmation
       responses:
         '201':
-          description: Successfully registered user
+          description: Successfully registered and email verification link sent
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  id:
-                    type: integer
-                    example: 1
-                  username:
+                  message:
                     type: string
-                    example: "john_doe"
-                  email:
-                    type: string
-                    example: "john@example.com"
+                    example: "Registration successful! Please verify your email."
         '400':
-          description: Validation error
+          description: Validation errors occurred (e.g., invalid input or email already exists)
           content:
             application/json:
               schema:
                 type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Validation failed: [list of validation errors]"
+                additionalProperties:
+                  type: string
+                example:
+                  email:
+                    - "The email field is required."
+                    - "The email has already been taken."
+                  password:
+                    - "The password confirmation does not match."
         '500':
-          description: Internal server error
+          description: Internal server error – An error occurred while processing the registration
           content:
             application/json:
               schema:
@@ -425,6 +430,209 @@ paths:
                     type: string
                     example: "An error occurred: [Exception message]"
 
+  /api/auth/verify-email:
+    get:
+      summary: Verify user's email
+      description: This endpoint verifies a user's email address using a token provided in the query string. If the token is valid, the email is marked as verified, and the token is invalidated.
+      tags:
+        - Auth
+      parameters:
+        - name: token
+          in: query
+          required: true
+          description: The email verification token sent to the user's email address.
+          schema:
+            type: string
+            example: "4b5f2a7d8e9c123456abcdef12345678"
+      responses:
+        '200':
+          description: Email verified successfully
+          content:
+            text/html:
+              schema:
+                type: string
+                example: "<html><body>Email verification successful!</body></html>"
+        '400':
+          description: Invalid or expired token
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid or expired token."
+        '500':
+          description: Internal server error – An error occurred during email verification
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "An error occurred: [Exception message]"
+
+  /api/auth/send-mail/reset-password:
+    post:
+      summary: Send email for resetting password
+      description: This endpoint sends a password reset email to the authenticated user. It generates a unique token and stores it in the `password_reset_tokens` table. The user can reset their password by following the link sent to their email.
+      tags:
+        - Auth
+      security:
+        - api_key: []  # Requires authentication with a valid token
+      responses:
+        '201':
+          description: Email sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Please verify your email."
+        '401':
+          description: Unauthorized – The user is not authenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized"
+        '500':
+          description: Internal server error – An error occurred while processing the request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "An error occurred: [Exception message]"
+
+  /api/auth/verify-password:
+    get:
+      summary: Verify password reset token
+      description: This endpoint validates the password reset token provided in the URL. If the token is valid, it clears the token from the database and returns a success message. Otherwise, it responds with an error.
+      tags:
+        - Auth
+      parameters:
+        - name: token
+          in: query
+          required: true
+          description: The password reset token to validate
+          schema:
+            type: string
+            example: "abcd1234efgh5678ijkl9012mnop3456"
+      responses:
+        '200':
+          description: Successfully verified the password reset token
+          content:
+            text/html:
+              schema:
+                type: string
+                example: "<html><body>Password reset token verified successfully. You can now reset your password.</body></html>"
+        '400':
+          description: Invalid or expired token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid or expired token."
+        '500':
+          description: Internal server error – An error occurred while processing the request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "An error occurred: [Exception message]"
+
+  /api/auth/update-password:
+    put:
+      summary: Update user password
+      description: This endpoint allows an authenticated user to update their password if they have verified the password reset token.
+      tags:
+        - Auth
+      security:
+        - api_key: []  # Yêu cầu người dùng phải xác thực bằng JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  description: The new password
+                  example: "newStrongPassword123"
+                password_confirmation:
+                  type: string
+                  description: Confirmation of the new password
+                  example: "newStrongPassword123"
+      responses:
+        '200':
+          description: Password updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Password updated successfully"
+        '401':
+          description: Unauthorized – The user is not authenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized"
+        '404':
+          description: Invalid token – The token is not valid or missing
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid token"
+        '422':
+          description: Validation failed – Password validation errors
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      password:
+                        type: array
+                        items:
+                          type: string
+                          example: "Password must be at least 8 characters."
+        '500':
+          description: Internal server error – An error occurred while processing the request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "An error occurred: [Exception message]"
+
   /api/auth/get-registered-project:
     get:
       summary: Get the list of projects registered by the current user
@@ -531,6 +739,84 @@ paths:
                   error:
                     type: string
                     example: "Project not found"
+        '500':
+          description: Internal server error – An error occurred while processing the request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "An error occurred: [Exception message]"
+
+  /api/auth/payments/create:
+    post:
+      summary: Create a payment for supporting a project
+      description: This endpoint allows a user to create a payment to support a project through VNPay.
+      tags:
+        - User
+      security:
+        - api_key: []  # This route requires the user to be authenticated with a valid JWT token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_id:
+                  type: integer
+                  description: The ID of the project to support.
+                  example: 1
+                amount:
+                  type: number
+                  format: float
+                  description: The amount to donate (minimum 1,000 VND).
+                  example: 100000
+                user_id:
+                  type: integer
+                  description: The ID of the user making the payment.
+                  example: 2
+              required:
+                - project_id
+                - amount
+                - user_id
+      responses:
+        '200':
+          description: Payment created successfully, and payment URL is generated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "success"
+                  payment_url:
+                    type: string
+                    description: The URL to VNPay for completing the payment.
+                    example: "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Version=2.1.0&..."
+        '400':
+          description: Invalid input or related errors (e.g., missing center)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Không tìm thấy trung tâm (tổ chức) liên quan đến dự án này."
+        '404':
+          description: Not found – The project or user with the specified ID was not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Dự án hoặc người dùng không tồn tại"
         '500':
           description: Internal server error – An error occurred while processing the request
           content:
@@ -879,106 +1165,6 @@ paths:
                     type: string
                     example: "An error occurred: [Exception message]"
 
-  /api/auth/creator/pending_project-edit/{id}:
-    get:
-      summary: Get pending project details for editing by the creator
-      description: This endpoint allows the authenticated user with the `creator` role to get the details of a pending project for editing.
-      tags:
-        - Creator
-      security:
-        - api_key: []  # This route requires the user to be authenticated with a valid JWT token and be a creator
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: The ID of the pending project to retrieve details for editing
-          schema:
-            type: integer
-            example: 1
-      responses:
-        '200':
-          description: Successfully retrieved pending project details for editing
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    example: 1
-                  name:
-                    type: string
-                    example: "Pending Project Title"
-                  description:
-                    type: string
-                    example: "Pending project description"
-                  goal_amount:
-                    type: number
-                    format: float
-                    example: 10000.0
-                  collected_amount:
-                    type: number
-                    format: float
-                    example: 2000.0
-                  start_date:
-                    type: string
-                    format: date
-                    example: "2024-01-01"
-                  end_date:
-                    type: string
-                    format: date
-                    example: "2024-12-31"
-                  cate_id:
-                    type: integer
-                    example: 2
-                  creator:
-                    type: string
-                    example: "john_doe"
-                  link_image:
-                    type: string
-                    example: "/uploads/image/pending_project.jpg"
-                  status:
-                    type: string
-                    example: "Pending"
-                  created_at:
-                    type: string
-                    format: date-time
-                    example: "2024-01-01T00:00:00Z"
-                  updated_at:
-                    type: string
-                    format: date-time
-                    example: "2024-01-01T00:00:00Z"
-        '401':
-          description: Unauthorized – The user is not authenticated or does not have the `creator` role
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Unauthorized: Token is invalid or missing"
-        '404':
-          description: Not found – The pending project with the specified ID was not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Not found detail of project"
-        '500':
-          description: Internal server error – An error occurred while processing the request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "An error occurred: [Exception message]"
-
   /api/auth/creator/project-update/{id}:
     put:
       summary: Update a project by its ID
@@ -1078,131 +1264,6 @@ paths:
                     example: "Unauthorized: Token is invalid or missing"
         '404':
           description: Not found – The project with the specified ID was not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Project not found"
-        '422':
-          description: Unprocessable Entity – Validation error for date or other fields
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Ngày kết thúc phải lớn hơn ngày bắt đầu."
-        '500':
-          description: Internal server error – An error occurred while processing the request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "An error occurred: [Exception message]"
-
-  /api/auth/creator/pending_project-update/{id}:
-    put:
-      summary: Update a pending project by its ID
-      description: This endpoint allows the authenticated user with the `creator` role to update the details of a pending project by its ID.
-      tags:
-        - Creator
-      security:
-        - api_key: []  # This route requires the user to be authenticated with a valid JWT token and be a creator
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: The ID of the pending project to update
-          schema:
-            type: integer
-            example: 1
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: "Updated Pending Project Name"
-                description:
-                  type: string
-                  example: "Updated description for the pending project"
-                goal_amount:
-                  type: number
-                  format: float
-                  example: 15000.0
-                end_date:
-                  type: string
-                  format: date
-                  example: "2024-12-31"
-                cate_id:
-                  type: integer
-                  example: 2
-      responses:
-        '200':
-          description: Successfully updated pending project details
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        example: 1
-                      name:
-                        type: string
-                        example: "Updated Pending Project Name"
-                      description:
-                        type: string
-                        example: "Updated description for the pending project"
-                      goal_amount:
-                        type: number
-                        format: float
-                        example: 15000.0
-                      end_date:
-                        type: string
-                        format: date
-                        example: "2024-12-31"
-                      cate_id:
-                        type: integer
-                        example: 2
-                  message:
-                    type: string
-                    example: "Update successfully"
-        '400':
-          description: Bad request – Validation error or missing required fields
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Please fill in the name"
-        '401':
-          description: Unauthorized – The user is not authenticated or does not have the `creator` role
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Unauthorized: Token is invalid or missing"
-        '404':
-          description: Not found – The pending project with the specified ID was not found
           content:
             application/json:
               schema:
@@ -1558,63 +1619,6 @@ paths:
                     type: string
                     example: "An error occurred: [Exception message]"
 
-  /api/auth/admin/pending_project:
-    get:
-      summary: Get list of pending projects
-      description: Endpoint for the admin to retrieve the list of pending projects.
-      tags:
-        - Admin
-      security:
-        - api_key: []
-      responses:
-        '200':
-          description: List of pending projects retrieved successfully
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      example: 1
-                    name:
-                      type: string
-                      example: "Pending Project Name"
-                    description:
-                      type: string
-                      example: "Description of the pending project"
-                    creator:
-                      type: object
-                      properties:
-                        id:
-                          type: integer
-                          example: 10
-                        name:
-                          type: string
-                          example: "John Doe"
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Unauthorized"
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Internal Server Error"
-  
   /api/auth/admin/approve-project/{id}:
     post:
       summary: Approve a pending project

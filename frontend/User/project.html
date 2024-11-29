@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách dự án</title>
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="css/linearicons.css">=
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/nice-select.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="css/bootstrap.css"> -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/detail.css">
+    <link rel="stylesheet" href="css/project.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+
+    <!-- Start Header Area -->
+    <header class="default-header">
+        <div class="container">
+            <div class="header-wrap">
+                <div class="header-top d-flex justify-content-between align-items-center ">
+                    <div class="logo">
+                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                    </div>
+                    <div class="main-menubar d-flex align-items-center">
+                        <nav class="nav-menu">
+                            <a href="./index.html">Trang chủ</a>
+                            <a href="#">Dự án</a>
+                            <a href="#about">Về chúng tôi</a>
+                            <a href="#donate">Ủng hộ</a>
+                            <div id="auth-container">
+                                <a href="./signup.html" id="signup-link">Đăng ký</a>| 
+                                <a href="./login.html" id="login-link">Đăng nhập</a> 
+                            </div>
+                            <div id="user-info" style="display: none;">
+                                <span id="user-name"></span>
+                                <div id="user-dropdown" class="dropdown-menu" style="display: none;">
+                                    <a href="">Trang cá nhân</a>
+                                    <a href="./history.html">Dự án đã ủng hộ</a>
+                                    <a href="#">Cài đặt</a>
+                                </div>
+                                <button id="logout-btn">Đăng xuất</button>
+                            </div>									
+                        </nav>
+                        <div class="menu-bar"><span class="lnr lnr-menu"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="page-title-pro">
+        <div id="progression-studios-page-title-container">
+            <div class="width-container-pro">
+                <h2 class="page-title">Dự án</h2>
+                <p style="color: rgb(211, 211, 211);">Dự án thiện nguyện giúp đỡ những hoàn cảnh khó khăn</p> 
+            </div><!-- #progression-studios-page-title-container -->
+        </div><!-- close .width-container-pro -->
+
+        <div id="page-title-overlay-image"></div>
+    </div>
+
+    <div class="campaigns-running container">
+        <div class="text-center tab-header">
+            <h2>Các dự án đang gây quỹ</h2>
+            <p>Hãy lựa chọn dự án trong lĩnh vực mà bạn quan tâm nhất</p>
+        </div>
+        <div class="row row-cols-1 row-cols-md-3 g-4 projects-list">
+            <div class="col">
+              <div class="card h-100 border-0 shadow" >
+                <a href="./details.html">
+                    <img src="img/p1.jpg" class="card-img-top" alt="...">
+                </a>
+                <div class="label-overlay">Trẻ em</div>
+                <section id="project-progress">
+                    <div class="progress-container">
+                        <span id="progress-text" style="left: calc(50% - 10px);"></span>
+                        <progress id="progress-bar" value="50" max="100"></progress>
+                    </div>
+
+                    <div class="progress-info">
+                        <div class="donated-amount">
+                            <strong>Hiện tại:</strong> <span id="donated-amount">8.005.500đ</span>
+                        </div>
+                        <div class="goal-amount">
+                            <strong>Mục tiêu:</strong> <span id="goal-amount">80.005.500đ</span>
+                        </div>
+                    </div>
+                </section>
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card h-100 border-0 shadow">
+                <a href="">
+                    <img src="img/p2.jpg" class="card-img-top" alt="...">
+                </a>
+                <div class="label-overlay">Trẻ em</div>
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">This is a short card.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card h-100 border-0 shadow">
+                <a href="">
+                    <img src="img/p3.jpg" class="card-img-top" alt="...">
+                </a>
+                <div class="label-overlay">Trẻ em</div>
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card h-100 border-0 shadow">
+                <a href="">
+                    <img src="img/p3.jpg" class="card-img-top" alt="...">
+                </a>
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+                <div class="card h-100 border-0 shadow">
+                  <a href="">
+                    <img src="img/p3.jpg" class="card-img-top" alt="...">
+                </a>
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card h-100 border-0 shadow">
+                  <a href="">
+                    <img src="img/p3.jpg" class="card-img-top" alt="...">
+                </a>
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  </div>
+                </div>
+              </div>
+          </div>
+    </div>
+
+    <!-- start footer Area -->
+    <footer class="footer-area section-gap">
+        <div></div>
+        <div class="container">
+            <div class="row d-flex flex-column justify-content-center">
+                <ul class="footer-menu">
+                    <li><a href="#">Trang chủ</a></li>
+                    <li><a href="#project">Dự án</a></li>
+                    <li><a href="#about">Về chúng tôi</a></li>
+                    <li><a href="#donate">Ủng hộ</a></li>
+                </ul>
+                <div class="footer-social">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-dribbble"></i></a>
+                    <a href="#"><i class="fa fa-behance"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    
+    <script src="js/vendor/jquery-2.2.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/jquery.ajaxchimp.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery.sticky.js"></script>
+    <script src="js/parallax.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/header.js"></script>
+</body>
+</html>

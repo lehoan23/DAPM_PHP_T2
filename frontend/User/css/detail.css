@@ -1,0 +1,470 @@
+
+#project-details {
+    padding: 60px 0;
+    background-color: #ffffff;
+}
+
+.project-details .container {
+    margin: 0 auto;
+}
+
+.project-details h2 {
+    font-size: 23px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    padding-right: 10px;
+}
+
+.project-details .project-description {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.project-details .project-info p {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 0px;
+}
+
+.project-details .btn-donate {
+    display: inline-block;
+    background-color: #f40f68;
+    color: #fff;
+    padding: 15px 20px;
+    font-size: 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.project-details .btn-donate:hover {
+    background-color: #ca004e
+}
+
+.project-image {
+    position: relative;
+}
+
+.project-image img {
+    width: 90%; 
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+.label-overlay {
+    position: absolute;
+    top: 15px; 
+    right: 70px; 
+    background-color: #f40f68;
+    color: white;
+    padding: 8px 10px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+#page-title-pro {
+    background-color: #f7f7f7;
+    padding: 60px 0;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+#progression-studios-page-title-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.page-title {
+    font-size: 30px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+#breadcrumbs-progression-studios {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    color: #d1d1d1;
+}
+
+#breadcrumbs-progression-studios li {
+    display: inline;
+    margin-right: 5px;
+}
+
+#breadcrumbs-progression-studios li a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+#breadcrumbs-progression-studios li a:hover {
+    text-decoration: underline;
+}
+
+#breadcrumbs-progression-studios li.current-item {
+    color: #c9c9c9;
+}
+
+#page-title-overlay-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right:0;
+    bottom: 0;
+    background-image: url('https://givenow.vn/wp-content/uploads/2022/07/project_cover_with_overlay.png');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+.clearfix-pro {
+    clear: both;
+}
+
+.campaign-info {
+    background-color: #a7a7a710;
+    padding: 25px 25px 45px 25px;
+    border-radius: 10px ;
+}
+
+.donate-input-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.donate-input-container a {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 8px 12px;
+}
+
+.donate-input-container #donate-amount {
+    width: 120px;
+    height: 40px;
+    font-size: 16px;
+    text-align: center;
+    border: 2px solid #f0edeb;
+    background-color: #f0edeb;
+    border-radius: 5px;
+    color: #666666;
+    outline: none;
+    padding: 22px 10px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    appearance: textfield; 
+}
+
+.donate-input-container #donate-amount:focus {
+    border-color: #0056b3;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.donate-input-container .btn-donate {
+    background-color: #f40f68;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 15px 15px;
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.donate-input-container .btn-donate:hover {
+    background-color: #cd004f;
+}
+
+#project-progressdetails {
+    margin-top: 40px;
+    font-family: 'Arial', sans-serif;
+}
+
+.progress-containerdetails {
+    position: relative; 
+    width: 100%;
+    height: 8px;
+}
+
+progress  {
+    width: 100%;
+    height: 100%;
+    appearance: none; 
+    border-radius: 20px; 
+    background: #e0e0e0; 
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+progress::-webkit-progress-bardetails {
+    background-color: #e0e0e0;
+    border-radius: 20px;
+}
+
+progress::-webkit-progress-value {
+    background-image: -webkit-linear-gradient(180deg, #f40f68 0%, #f86e3d 55%, #fbcd11 100%); 
+    border-radius: 20px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1); 
+}
+
+progress::-moz-progress-bardetails {
+    background: linear-gradient(90deg, #4caf50, #81c784);
+    border-radius: 20px;
+}
+
+#progress-textdetails {
+    position: absolute;
+    top: -25px;  
+    left: 50%;
+    transform: translateX(-50%); 
+    font-size: 18px;
+    font-weight: bold;
+    color: #f40f68; 
+}
+
+.progress-infodetails {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-top: 45px; 
+    font-family: 'Arial', sans-serif;
+    font-size:16px;
+    color: #333;
+}
+
+.progress-infodetails div {
+    display: flex; 
+    align-items: center; 
+}
+
+.progress-infodetails strong {
+    margin-right: 10px;
+    color: #000000;
+}
+
+.progress-infodetails span {
+    color: #f40f68; 
+    font-size: 20px; 
+    font-weight: bold; 
+}
+.goal-amountdetails {
+    margin-left: 10px;
+}
+
+section {
+    display: block;
+}
+
+.author-title {
+    display: flex; 
+    align-items: center; 
+}
+
+.author-title img {
+    border-radius: 50%; 
+}
+
+.d-none.d-md-block {
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+}
+
+.d-none.d-md-block i img {
+    width: 16px;
+    height: 16px;
+}
+
+.fund-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.support-count {
+    margin-left: auto;
+}
+
+.fund-info a {
+    font-size: 16px;
+    font-weight: 500;
+    color: #f40f68; 
+}
+
+.elementor-widget-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.image-details {
+    width: 80%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.elementor-container {
+    background-color: #f6f3f1;
+    opacity: 0.8;
+    padding: 10px;
+    margin-top: -10px;
+}
+
+.wpneo-tab {
+    display: flex;
+    gap: 100px;
+    margin-bottom: 200px;
+}
+
+.funlin-tab-campaign-story-right {
+    display: flex;
+    flex-direction: column;
+    background-color: #f6f3f1;
+    padding: 30px;
+    gap: 20px;
+    padding-bottom: 50px;
+    height: 0%;
+}
+
+.right-campaign-story-tab-fund-name img {
+    border-radius: 50%;
+}
+
+.right-campaign-story-tab-fund-name a {
+    font-size: 20px;
+    color: black;
+    font-weight: bold;
+    margin-left: 20px;
+}
+.fund-descr .fund-addr a{
+    color: #f40f68; 
+}
+
+.fund-descr {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.border-bottom {
+    margin-bottom: 20px;
+    border-bottom-width: 1px; 
+    border-bottom-style: solid;
+    border-bottom-color: #dfdfdf; 
+}
+
+.container .content {
+    color: #ffffff;
+    width: 13%;
+    font-size: 16px;
+    padding: 15px 10px;
+    height: auto;
+    background-color: #f40f68; 
+    border-radius: 5px 5px 0px 0px;
+    text-align: center;
+    margin-bottom: auto;
+    font-weight: 500;
+}
+
+.elementor-widget-container p {
+    font-size: 16px;
+    line-height: normal;
+}
+
+.donate-form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.donate-form {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    width: 600px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.donate-form h2 {
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+.donate-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.donate-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.donate-form .btn {
+    padding: 10px 15px;
+    margin: 10px 5px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.donate-form .btn-primary {
+    background-color: #f40f68;
+    padding: 15px 30px;
+    font-weight: bold;
+    width: 100%;
+    margin: auto;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.donate-form .btn-cancel {
+    background-color: #dc3545;
+    color: white;
+}
+
+.required {
+    color: red;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+#donate-amount-form{
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+    text-align: center;
+    border: 2px solid #f0edeb;
+    background-color: #f0edeb;
+    border-radius: 5px;
+    color: #666666;
+    padding: 22px 10px;
+}
