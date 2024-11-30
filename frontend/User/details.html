@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết dự án</title>
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="css/linearicons.css">=
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/nice-select.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/detail.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+
+    <!-- Start Header Area -->
+    <header class="default-header">
+        <div class="container">
+            <div class="header-wrap">
+                <div class="header-top d-flex justify-content-between align-items-center ">
+                    <div class="logo">
+                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                    </div>
+                    <div class="main-menubar d-flex align-items-center">
+                        <nav class="nav-menu">
+                            <a href="./index.html">Trang chủ</a>
+                            <a href="./project.html">Dự án</a>
+                            <a href="#about">Về chúng tôi</a>
+                            <a href="#donate">Ủng hộ</a>
+                            <div id="auth-container">
+                                <a href="./signup.html" id="signup-link">Đăng ký</a>| 
+                                <a href="./login.html" id="login-link">Đăng nhập</a> 
+                            </div>
+                            <div id="user-info" style="display: none;">
+                                <span id="user-name"></span>
+                                <div id="user-dropdown" class="dropdown-menu" style="display: none;">
+                                    <a href="">Trang cá nhân</a>
+                                    <a href="./history.html">Dự án đã ủng hộ</a>
+                                    <a href="#">Cài đặt</a>
+                                </div>
+                                <button id="logout-btn">Đăng xuất</button>
+                            </div>									
+                        </nav>
+                        <div class="menu-bar"><span class="lnr lnr-menu"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="page-title-pro">
+        <div id="progression-studios-page-title-container">
+            <div class="width-container-pro">
+                <h2 class="page-title">Nội dung dự án</h2>
+                <p style="color: rgb(211, 211, 211);">Dự án thiện nguyện giúp đỡ những hoàn cảnh khó khăn</p> 
+            </div><!-- #progression-studios-page-title-container -->
+        </div><!-- close .width-container-pro -->
+
+        <div id="page-title-overlay-image"></div>
+    </div>
+    
+
+    <section id="project-details" class="project-details">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="project-image">
+                        <img src="img/p1.jpg" alt="Chi tiết dự án">
+                        <div class="label-overlay">Trẻ em</div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="project-info">
+                        <h2>Dự án thiện nguyện giúp đỡ trẻ em nghèo có hoàn cảnh khó khăn</h2>
+                        <div class="campaign-info">
+                            <div class="author-title">
+                                <div class="fund-info">
+                                    <img src="https://givenow.vn/wp-content/uploads/2022/08/NBTT1-e1664447215874.jpeg" alt="Fund Avatar" style="width:48px;height:48px">
+                                    <a href="#">Quỹ từ thiện ước mơ</a>
+                                </div>
+                                <div class="d-none support-count d-md-block">
+                                    <i class="far person"><img class="me-2" src="https://givenow.vn/wp-content/themes/funlin-progression-child/images/icons/icon_user2.svg"></i>
+                                    <span>203 lượt ủng hộ</span>
+                                </div>
+                            </div>
+                            <section id="project-progressdetails">
+								<div class="progress-containerdetails">
+                                    <span id="progress-textdetails"></span>
+									<progress id="progress-bardetails" value="50" max="100"></progress>
+								</div> 
+								<div class="progress-infodetails">
+									<div class="donated-amountdetails">
+										<strong>Hiện tại:</strong> <span id="donated-amountdetails">8.005.500đ</span>
+									</div>
+									<div class="goal-amountdetails">
+										<strong>Mục tiêu:</strong> <span id="goal-amountdetails">80.005.500đ</span>
+									</div>
+								</div>
+							</section>    
+                        </div>
+                        <div class="donate-input-container">
+                            <a>VNĐ</a>
+                            <input type="number" id="donate-amount" value="50000" min="20000" step="1000">
+                            <a href="#donate" class="btn btn-donate">Ủng hộ ngay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    <div id="donate-form-container" class="donate-form-overlay" style="display: none;">
+        <div class="donate-form">
+            <h2>Thông tin ủng hộ</h2>
+            <form id="donate-form">
+                <label for="donor-name">Họ tên người ủng hộ<span class="required">*</span></label>
+                <input type="text" id="donor-name" placeholder="Nhập họ tên của bạn" required>
+    
+                <label for="donor-phone">Số điện thoại</label>
+                <input type="tel" id="donor-phone" placeholder="Nhập số điện thoại của bạn">
+    
+                <label for="donor-address">Địa chỉ</label>
+                <input type="text" id="donor-address" placeholder="Nhập địa chỉ của bạn">
+    
+                <label for="donor-email">Email<span class="required">*</span></label>
+                <input type="email" id="donor-email" placeholder="Nhập email của bạn" required>
+    
+                <label for="donate-amount-form">Số tiền ủng hộ<span class="required">*</span></label>
+                <input type="number" id="donate-amount-form" value="50000" min="20000" step="1000" required>
+
+                <div class="border-bottom"></div>
+    
+                <button type="submit" class="btn btn-primary">Ủng hộ</button>
+                <p class="note" style="margin: auto;">Chúng tôi xác nhận là bạn đã đồng ý với <a href="#" style="color: #f40f68;;">điều khoản</a>
+                    của chúng tôi</p>
+            </form>
+        </div>
+    </div>
+    
+
+    
+
+    <div class="container">
+        <p class="content">Nội dung</p>
+        <div class="border-bottom"></div>
+        <div class="wpneo-tab">
+            <div class="col-lg-7 elementor-widget-container">
+
+                <p style="font-weight: 400;">Chào đời vào tháng 9.2023, tại xã Thạnh Bình, huyện Tân Biên, tỉnh Tây Ninh, cậu bé Duy Khương không may mắn mắc căn bệnh tim bẩm sinh thể nặng.</p>
+                <img src="img/p1.jpg" alt="" class="image-details">
+                <p style="font-weight: 400;">Ngặt nỗi trong căn nhà đơn sơ, mọi chi tiêu của cả nhà 4 người chỉ gói gọn trong thu nhập 6 triệu làm thuê hàng tháng của ba Duy Khương. Khi được chẩn đoán bé hở van ba lá trung bình nặng, cần một khoản chi phí lớn để phẫu thuật, con số vượt xa rất nhiều khả năng của gia đình. </p>
+                <div class="elementor-container">
+                    <span>Toàn bộ số tiền quyên góp từ cộng đồng sẽ tự động chuyển thẳng tới Quỹ từ thiện Nâng bước tuổi thơ (không qua GiveNow) để tiến hành hỗ trợ viện phí điều trị cho bé Nguyễn Duy Khương. Thông tin cập nhật về chương trình sẽ được cập nhật tại mục Báo cáo của dự án này.</span>
+                </div>
+            </div>  
+            
+            <div class="col-lg-4 funlin-tab-campaign-story-right">
+                <p>Thông tin tổ chức gây quỹ</p>
+                <div class="right-campaign-story-tab-fund-name">
+                    <img src="https://givenow.vn/wp-content/uploads/2022/08/NBTT1-e1664447215874.jpeg" alt="Fund Avatar" style="width:50px;height:50px">
+                    <a href="#">Quỹ từ thiện ước mơ</a>
+                </div>
+                <div class="fund-descr">
+                    <p>“Nâng Bước Tuổi Thơ là tổ chức từ thiện duy nhất tại Việt Nam cung cấp chuyên môn điều trị bệnh lý; phẫu thuật đa khoa theo tiêu chuẩn quốc tế cho trẻ em dị tật bẩm sinh có hoàn cảnh khó khăn. Thắp sáng bởi ngọn lửa của tình thương vô điều kiện, Quỹ Nâng Bước Tuổi Thơ ấp ủ khát vọng cùng sứ mệnh mang tới cơ thể lành lặn và tương lai tốt đẹp nhất cho những trẻ em kém may mắn trên khắp mọi miền đất Việt.”</p>
+                    <div class="fund-addr">
+                        <img src="https://givenow.vn/wp-content/themes/funlin-progression/images/internet.png" style="padding-right:11px;color:#A7A7A7;width: 30px">
+                        <a href="https://nangbuoctuoitho.org">https://nangbuoctuoitho.org</a>
+                    </div>
+                    <div class="fund-addr">
+                        <img src="https://givenow.vn/wp-content/uploads/2020/01/address-2.svg" style="padding-right:11px;color:#A7A7A7;">Tầng 6, SGR.O1-606, Saigon Royal, 34-35 Bến Vân Đồn, Phường 13, Quận 4, TP. Hồ Chí Minh
+                    </div>
+                        <div class="fund-phone">
+                            <img src="https://givenow.vn/wp-content/uploads/2020/01/phone-2.svg" style="padding-right:11px;color:#A7A7A7;">Hotline: <a style="color:#F9153E;font-weight:500;">0903035030</a>
+                        </div>
+                        <div class="fund-mail">
+                            <img src="https://givenow.vn/wp-content/uploads/2020/01/mail-2.svg" style="padding-right:11px;color:#A7A7A7;">contact@children-of-vietnam.org            
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="progression-studios-related-campaigns">
+        
+    </div>
+
+    <!-- start footer Area -->
+    <footer class="footer-area section-gap">
+        <div></div>
+        <div class="container">
+            <div class="row d-flex flex-column justify-content-center">
+                <ul class="footer-menu">
+                    <li><a href="#">Trang chủ</a></li>
+                    <li><a href="#project">Dự án</a></li>
+                    <li><a href="#about">Về chúng tôi</a></li>
+                    <li><a href="#donate">Ủng hộ</a></li>
+                </ul>
+                <div class="footer-social">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-dribbble"></i></a>
+                    <a href="#"><i class="fa fa-behance"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    
+    <script src="js/vendor/jquery-2.2.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/jquery.ajaxchimp.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery.sticky.js"></script>
+    <script src="js/parallax.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/details.js"></script>
+    <script src="js/header.js"></script>
+</body>
+</html>

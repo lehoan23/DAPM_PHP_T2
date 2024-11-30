@@ -1,0 +1,31 @@
+.tab-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 50px;
+}
+
+.tab-header p {
+    font-size: 18px;
+}
+
+.projects-list {
+    margin-top: 30px;
+    margin-bottom: 80px;
+}
+
+.label-overlay {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background-color: #f40f68;
+    color: white;
+    padding: 8px 10px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.projects-list .card {
+    padding: 20px;
+}
