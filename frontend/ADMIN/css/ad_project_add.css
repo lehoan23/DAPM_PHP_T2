@@ -24,16 +24,10 @@
     padding: 10px 0;
     z-index: 1;
   }
-  nav .logo{
-    margin-left: 80px;
-  }
-  nav .logo a {
-    text-decoration: none;
-    color: rgb(224, 224, 115);
-    font-size: 30px;
-    font-weight: 600;
-   
-  }
+  nav .logo {
+    margin-left:90px;
+}
+
   nav .menu {
     display: flex;
     align-items: center;
@@ -242,7 +236,41 @@ li a i {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+/* Định dạng container chứa nút */
+.action-all-container {
+  margin-left: 30px;
+}
+/* Định dạng nút "Duyệt tất cả" */
+.action-btn.approve-all-btn {
+  background-color: #4CAF50; /* Màu xanh lá */
+  color: white; /* Màu chữ */
+  border: none; /* Bỏ viền */
+  border-radius: 4px; /* Bo góc */
+  padding: 10px 20px; /* Kích thước nút */
+  font-size: 16px; /* Cỡ chữ */
+  margin-right: 10px; /* Khoảng cách giữa hai nút */
+  cursor: pointer; /* Hiển thị con trỏ chuột */
+}
 
+/* Định dạng nút "Từ chối tất cả" */
+.action-btn.reject-all-btn {
+  background-color: #f44336; /* Màu đỏ */
+  color: white; /* Màu chữ */
+  border: none; /* Bỏ viền */
+  border-radius: 4px; /* Bo góc */
+  padding: 10px 20px; /* Kích thước nút */
+  font-size: 16px; /* Cỡ chữ */
+  cursor: pointer; /* Hiển thị con trỏ chuột */
+}
+/* Hiệu ứng hover cho nút "Duyệt tất cả" */
+.action-btn.approve-all-btn:hover {
+  background-color: #45a049; /* Màu khi rê chuột qua nút */
+}
+
+/* Hiệu ứng hover cho nút "Từ chối tất cả" */
+.action-btn.reject-all-btn:hover {
+  background-color: #d32f2f; /* Màu khi rê chuột qua nút */
+}x
 /* Table */
 table {
   width: 100%; /* Đảm bảo bảng không vượt quá main-content */
@@ -312,42 +340,7 @@ table td:last-child {
 .action-btn:hover {
   opacity: 0.8; /* Hiệu ứng hover */
 }
-/* Định dạng container chứa nút */
-.action-all-container {
-  margin-top: 50px; /* Tạo khoảng cách phía trên các nút */
-  text-align: center; /* Canh giữa các nút */
-}
-/* Định dạng nút "Duyệt tất cả" */
-.action-btn.approve-all-btn {
-  background-color: #4CAF50; /* Màu xanh lá */
-  color: white; /* Màu chữ */
-  border: none; /* Bỏ viền */
-  border-radius: 4px; /* Bo góc */
-  padding: 10px 20px; /* Kích thước nút */
-  font-size: 16px; /* Cỡ chữ */
-  margin-right: 10px; /* Khoảng cách giữa hai nút */
-  cursor: pointer; /* Hiển thị con trỏ chuột */
-}
 
-/* Định dạng nút "Từ chối tất cả" */
-.action-btn.reject-all-btn {
-  background-color: #f44336; /* Màu đỏ */
-  color: white; /* Màu chữ */
-  border: none; /* Bỏ viền */
-  border-radius: 4px; /* Bo góc */
-  padding: 10px 20px; /* Kích thước nút */
-  font-size: 16px; /* Cỡ chữ */
-  cursor: pointer; /* Hiển thị con trỏ chuột */
-}
-/* Hiệu ứng hover cho nút "Duyệt tất cả" */
-.action-btn.approve-all-btn:hover {
-  background-color: #45a049; /* Màu khi rê chuột qua nút */
-}
-
-/* Hiệu ứng hover cho nút "Từ chối tất cả" */
-.action-btn.reject-all-btn:hover {
-  background-color: #d32f2f; /* Màu khi rê chuột qua nút */
-}
   /* Footer styles */
   footer {
     background-color: #222;

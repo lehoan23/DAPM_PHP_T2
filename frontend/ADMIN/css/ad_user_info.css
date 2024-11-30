@@ -24,15 +24,9 @@ header {
     z-index: 1;
   }
   nav .logo{
-    margin-left: 80px;
+    margin-left: 90px;
   }
-  nav .logo a {
-    text-decoration: none;
-    color: rgb(224, 224, 115);
-    font-size: 30px;
-    font-weight: 600;
-   
-  }
+
   nav .menu {
     display: flex;
     align-items: center;
@@ -247,7 +241,7 @@ main{
     display: flex;
     gap: 170px; /* To give some space between the buttons */
     margin-top: 70px; /* Adds space above the buttons */
-    justify-content: center;  
+    margin-left: 150px;
     margin-bottom: 40px;
 }
 

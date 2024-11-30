@@ -24,15 +24,9 @@ header {
     z-index: 1;
   }
   nav .logo{
-    margin-left: 80px;
+    margin-left: 90px;
   }
-  nav .logo a {
-    text-decoration: none;
-    color: rgb(224, 224, 115);
-    font-size: 30px;
-    font-weight: 600;
-   
-  }
+
   nav .menu {
     display: flex;
     align-items: center;
@@ -235,7 +229,7 @@ main{
     border-radius: 5px;
 }
 
-#id, #created_at {
+#id {
     background-color: #d69696;
 }
 
@@ -244,7 +238,7 @@ main{
     display: flex;
     gap: 170px;
     margin-top: 70px;
-    justify-content: center;  
+    margin-left: 250px;
     margin-bottom: 40px;
 }
 
@@ -276,28 +270,28 @@ main{
 }
 
 .duan-avatar .duan1{
-    height: 230px;
+    height: 180px;
     position: absolute; /* Định vị tương đối đến vùng chứa */
-    top: 180px; /* Điều chỉnh khoảng cách từ trên xuống */
+    top: 200px; /* Điều chỉnh khoảng cách từ trên xuống */
     right: 170px; /* Căn sát góc phải */
     text-align: center; /* Căn giữa nội dung (ảnh và nút nếu thêm sau này) */
 }
 .duan-avatar .duan2{
+    height: 180px;
     position: absolute; /* Định vị tương đối đến vùng chứa */
-    top: 430px; /* Điều chỉnh khoảng cách từ trên xuống */
+    top: 400px; /* Điều chỉnh khoảng cách từ trên xuống */
     right: 50px; /* Căn sát góc phải */
     text-align: center; /* Căn giữa nội dung (ảnh và nút nếu thêm sau này) */
 }
 .duan-avatar .duan3{
-    height: 250px;
+    height: 210px;
     position: absolute; /* Định vị tương đối đến vùng chứa */
-    top: 660px; /* Điều chỉnh khoảng cách từ trên xuống */
+    top: 600px; /* Điều chỉnh khoảng cách từ trên xuống */
     right: 170px; /* Căn sát góc phải */
     text-align: center; /* Căn giữa nội dung (ảnh và nút nếu thêm sau này) */
 }
 .duan-avatar img{
     width: 350px;
-    height: 200px;
     border-radius: 10%;
     border: 2px solid #ccc;
     object-fit: cover; /* Đảm bảo ảnh vừa khung */

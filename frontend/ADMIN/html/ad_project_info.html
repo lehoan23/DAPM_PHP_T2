@@ -13,7 +13,7 @@
         <nav>
             <div class="menu">
                 <div class="logo">
-                    <a href="#">GiveNow</a>
+                    <a href=""><img src="../img/logo.png" alt=""></a>
                 </div>
                 <ul>
                     <li><a href="#">Trang chủ</a></li>
@@ -75,10 +75,16 @@
                             <label for="collected_amount">CollectedAmount</label>
                             <input name="collected_amount" type="text" id="collected_amount" placeholder="CollectedAmount">
                         </div>
+                        
                         <div class="info-row">
                             <label for="status">Status</label>
-                            <input name="status" type="text" id="status" placeholder="Status">
-                        </div>
+                            <select name="status" id="status">
+                              <option value="1">Active</option>
+                              <option value="2">Pending</option>
+                              <option value="3">Cancel</option>
+                            </select>  
+                        </div> 
+
                         <div class="info-row">
                             <label for="start_date">StartDate</label>
                             <input name="start_date" type="date" id="start_date" placeholder="StartDate">
@@ -94,19 +100,7 @@
                         <div class="info-row">
                             <label for="cate_id">CateID</label>
                             <input name="cate_id" type="text" id="cate_id" placeholder="CateID">
-                        </div>
-                        <div class="info-row">
-                            <label for="created_at">Created_at</label>
-                            <input name="created_at" type="timestamp" id="created_at" placeholder="Created_at" readonly>
-                        </div>
-                        <div class="info-row">
-                            <label for=" updated_at">Updated_at</label>
-                            <input name="updated_at" type="timestamp" id=" updated_at" placeholder="Updated_at">
-                        </div>
-                        <div class="info-row">
-                            <label for="deleted_at">Deleted_at</label>
-                            <input name="deleted_at" type="timestamp" id="deleted_at" placeholder="Deleted_at">
-                        </div>    
+                        </div>   
                 </div>
 
                 <!-- Buttons for updating and deleting -->
