@@ -17,10 +17,12 @@ class ResetPasswordMail extends Mailable
      * Create a new message instance.
      */
     public $actionURL;
+    public $password;
 
-    public function __construct($actionURL)
+    public function __construct($actionURL,$password)
     {
         $this->actionURL = $actionURL;
+        $this->password = $password;
     }
 
     /**
@@ -40,8 +42,8 @@ class ResetPasswordMail extends Mailable
     {
         $emailContent = [
             'subject' => 'Password Reset Request | GiveNow',
-            'body' => 'To reset your password, please click on the following link:',
-            'button_title' => 'RESET PASSWORD',
+            'body' => $this->password,
+            'button_title' => 'BACK TO LOGIN',
         ];
         
         return new Content(
@@ -49,6 +51,7 @@ class ResetPasswordMail extends Mailable
             with: [
                 'actionURL' => $this->actionURL,
                 'emailContent' => $emailContent,
+                'password' => $this->password,
             ]
         );
     }

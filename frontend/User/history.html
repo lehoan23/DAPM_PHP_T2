@@ -54,7 +54,7 @@
                                 <div id="user-dropdown" class="dropdown-menu" style="display: none;">
                                     <a href="">Trang cá nhân</a>
                                     <a href="./history.html">Dự án đã ủng hộ</a>
-                                    <a href="#">Cài đặt</a>
+                                    <a href="./newPassword.html">Đặt lại mật khẩu</a>
                                 </div>
                                 <button id="logout-btn">Đăng xuất</button>
                             </div>									
@@ -81,20 +81,20 @@
 
         <div class="donation-details">
             <div class="detail-item">
-                <strong>Dự án:</strong> <br> <span class="detail-value">2</span>
+                <strong>Dự án:</strong> <br> <span class="detail-value" id="total-projects"></span>
             </div>
             <div class="vr"></div>
             <div class="detail-item">
-                <strong>Tổ chức:</strong> <br> <span class="detail-value">2</span>
+                <strong>Tổ chức:</strong> <br> <span class="detail-value" id="total-organizations"></span>
             </div>
             <div class="vr"></div>
             <div class="detail-item">
-                <strong>Số tiền ủng hộ:</strong> <br> <span class="detail-value">15.000đ</span>
+                <strong>Số tiền ủng hộ:</strong> <br> <span class="detail-value" id="total-amount"></span>
             </div>
         </div>
            
         <div class="donation-history">
-            <table>
+            <table id="donation-history-table">
                 <thead>
                     <tr>
                         <th>STT</th>
@@ -104,22 +104,7 @@
                         <th>Thời gian</th>
                     </tr>
                 </thead>
-                <tbody>
-                        <tr>
-                            
-                                <td>1</td>
-                                <td><a href="./details.html">Dự án Môi Trường Xanh</a></td>
-                                <td>Tổ chức Xanh Việt</td>
-                                <td>5.000đ</td>
-                                <td>01/12/2024</td>
-                        </tr>
-                    <tr>
-                        <td>2</td>
-                        <td><a href="./details.html">Dự án Cộng Đồng</a></td>
-                        <td>Tổ chức Vì Cộng Đồng</td>
-                        <td>10.000đ</td>
-                        <td>15/11/2024</td>
-                    </tr>
+                <tbody  id="donation-history-body">
                     
                 </tbody>
             </table>
@@ -159,6 +144,111 @@
     <script src="js/main.js"></script>
     <script src="js/details.js"></script>
     <script src="js/header.js"></script>
+    <script src="js/callAjaxGlobal.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+			const token = localStorage.getItem("mytokelogin");
 
+			if (token) {
+				document.getElementById('auth-container').style.display = 'none';
+				document.getElementById('user-info').style.display = 'block';
+				getName();
+                getRegisteredProjects();
+			}
+		});
+
+        function getRegisteredProjects() {
+            var url = "/api/auth/get-registered-project"; 
+            const ajaxCall = callApiGlobal.getRequestGlobal(url);
+
+            ajaxCall.done(function (data) {
+                const projects = data.data; 
+                displayDonationHistory(projects);
+                updateDonationDetails(projects);
+            });
+
+            ajaxCall.fail(function (xhr) {
+                console.log("Lỗi khi lấy dữ liệu", xhr);
+            });
+        }
+
+        function updateDonationDetails(projects) {
+            // Tổng số dự án
+            const totalProjects = projects.length;
+            document.getElementById('total-projects').textContent = totalProjects;
+
+            // Tổng số tổ chức (có thể tính theo cách khác nếu cần thiết)
+            const totalOrganizations = [...new Set(projects.map(project => project.ToChucName))].length;
+            document.getElementById('total-organizations').textContent = totalOrganizations;
+
+            // Tổng số tiền ủng hộ
+            const totalAmount = projects.reduce((sum, project) => sum + parseFloat(project.amount), 0).toFixed(2);
+            document.getElementById('total-amount').textContent = formatCurrency(totalAmount);
+        }
+
+        // Hàm định dạng số tiền thành dạng có dấu phân cách
+        function formatCurrency(amount) {
+            return parseFloat(amount).toLocaleString('vi-VN') + 'đ';
+        }
+
+        function displayDonationHistory(projects) {
+            const tableBody = document.getElementById('donation-history-body');
+            tableBody.innerHTML = ''; 
+
+            projects.forEach((project, index) => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><a href="./details.html?projectId=${project.project_id}">${project.ProjectName}</a></td>
+                    <td>${project.ToChucName}</td>
+                    <td>${formatCurrency(project.amount)}</td>
+                    <td>${formatDate(project.payment_date)}</td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+		function getName() {
+			var url = "/api/auth/me";
+
+			const ajaxCall = callApiGlobal.getRequestGlobal(url);
+			ajaxCall.done(function (data) {
+				const userName = data.username;
+				document.getElementById('user-name').textContent = userName;
+			});
+			ajaxCall.fail(function (xhr) {
+				// swal("Lỗi", "Đăng nhập không thành công. Vui lòng thử lại sau.", "error");
+			});
+		}
+
+		function logout() {
+			localStorage.removeItem('isLoggedIn');
+			localStorage.removeItem('userName');
+
+		}
+		function logout(event) {
+			event.preventDefault();
+
+			localStorage.removeItem("mytokelogin");
+			localStorage.removeItem("myrefreshlogin");
+
+			window.location.href = "./login.html";
+		}
+
+		document.getElementById('logout-btn')?.addEventListener('click', logout);
+    </script>
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+	<df-messenger intent="WELCOME" chat-title="AI_chatbox_support" agent-id="19afccd8-a91f-405d-a74d-7da21e9234c7"
+		language-code="vi"></df-messenger>
 </body>
 </html>

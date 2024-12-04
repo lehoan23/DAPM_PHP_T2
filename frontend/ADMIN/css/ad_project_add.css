@@ -10,7 +10,8 @@
     position: relative;
     height: auto;
     padding: 15px 0;
-    background-color: #003366;
+    background-color: #3f5469;
+    border-bottom: 1px solid #333;
   }
   header::before {
     position: absolute;
@@ -18,22 +19,21 @@
     height: 100%;
     width: 100%;
   }
+
+  .table-wrapper table {
+    width: 100%;
+    border-collapse:collapse;
+  }
   
   nav {
     position: relative;
     padding: 10px 0;
     z-index: 1;
   }
-  nav .logo{
-    margin-left: 80px;
-  }
-  nav .logo a {
-    text-decoration: none;
-    color: rgb(224, 224, 115);
-    font-size: 30px;
-    font-weight: 600;
-   
-  }
+  nav .logo {
+    margin-left:90px;
+}
+
   nav .menu {
     display: flex;
     align-items: center;
@@ -70,6 +70,8 @@
   }
   
   .admin-info {
+    position: relative; /* Quan trọng để dropdown bám đúng vị trí */
+    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -77,7 +79,8 @@
     font-size: 13px;
     font-weight: bold;
     text-decoration: underline;
-    margin-left: 140px;
+    margin-left: auto;
+    margin-right: 20px;
   }
   
   .admin-info img {
@@ -92,19 +95,6 @@
     transition: transform 0.3s ease; /* Thêm hiệu ứng cho việc xoay */
   }
   
-  /* Ẩn text "Đăng xuất" mặc định */
-  .logout-text {
-    display: none;
-    color: white;
-    font-size: 14px;
-    margin-left: 10px;
-    background: none; /* Xóa nền */
-    border: none; /* Xóa border */
-    cursor: pointer; /* Hiệu ứng khi di chuột */
-  }
-  
-  
-  /* Hiển thị text "Đăng xuất" khi hover vào biểu tượng */
   .admin-info:hover .logout-text {
     display: inline;
   }
@@ -112,6 +102,32 @@
   /* Thêm hiệu ứng xoay cho biểu tượng khi hover */
   .admin-info i:hover {
     transform: rotate(180deg); /* Xoay 180 độ khi hover vào icon */
+  }
+  .dropdown-menu {
+    position: absolute;
+    top: 40px; /* Đặt dưới admin-info */
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: none; /* Ẩn menu ban đầu */
+    flex-direction: column;
+    z-index: 10;
+  }
+  
+  .dropdown-menu .dropdown-btn {
+    padding: 10px 15px;
+    border: none;
+    background-color: transparent;
+    text-align: left;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu .dropdown-btn:hover {
+    background-color: #f3f3f3;
+    color: #007BFF;
   }
   
   /* Main content styles */
@@ -242,7 +258,41 @@ li a i {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+/* Định dạng container chứa nút */
+.action-all-container {
+  margin-left: 30px;
+}
+/* Định dạng nút "Duyệt tất cả" */
+.action-btn.approve-all-btn {
+  background-color: #4CAF50; /* Màu xanh lá */
+  color: white; /* Màu chữ */
+  border: none; /* Bỏ viền */
+  border-radius: 4px; /* Bo góc */
+  padding: 10px 20px; /* Kích thước nút */
+  font-size: 16px; /* Cỡ chữ */
+  margin-right: 10px; /* Khoảng cách giữa hai nút */
+  cursor: pointer; /* Hiển thị con trỏ chuột */
+}
 
+/* Định dạng nút "Từ chối tất cả" */
+.action-btn.reject-all-btn {
+  background-color: #f44336; /* Màu đỏ */
+  color: white; /* Màu chữ */
+  border: none; /* Bỏ viền */
+  border-radius: 4px; /* Bo góc */
+  padding: 10px 20px; /* Kích thước nút */
+  font-size: 16px; /* Cỡ chữ */
+  cursor: pointer; /* Hiển thị con trỏ chuột */
+}
+/* Hiệu ứng hover cho nút "Duyệt tất cả" */
+.action-btn.approve-all-btn:hover {
+  background-color: #45a049; /* Màu khi rê chuột qua nút */
+}
+
+/* Hiệu ứng hover cho nút "Từ chối tất cả" */
+.action-btn.reject-all-btn:hover {
+  background-color: #d32f2f; /* Màu khi rê chuột qua nút */
+}x
 /* Table */
 table {
   width: 100%; /* Đảm bảo bảng không vượt quá main-content */
@@ -258,8 +308,9 @@ table th, table td {
   text-align: left;
 }
 table th {
-  background-color: rgb(224, 224, 115);
+  background-color:#3f5469;
   font-size: 14px;
+  color: #ffffff;
 }
 table td {
   font-size: 14px;
@@ -312,42 +363,7 @@ table td:last-child {
 .action-btn:hover {
   opacity: 0.8; /* Hiệu ứng hover */
 }
-/* Định dạng container chứa nút */
-.action-all-container {
-  margin-top: 50px; /* Tạo khoảng cách phía trên các nút */
-  text-align: center; /* Canh giữa các nút */
-}
-/* Định dạng nút "Duyệt tất cả" */
-.action-btn.approve-all-btn {
-  background-color: #4CAF50; /* Màu xanh lá */
-  color: white; /* Màu chữ */
-  border: none; /* Bỏ viền */
-  border-radius: 4px; /* Bo góc */
-  padding: 10px 20px; /* Kích thước nút */
-  font-size: 16px; /* Cỡ chữ */
-  margin-right: 10px; /* Khoảng cách giữa hai nút */
-  cursor: pointer; /* Hiển thị con trỏ chuột */
-}
 
-/* Định dạng nút "Từ chối tất cả" */
-.action-btn.reject-all-btn {
-  background-color: #f44336; /* Màu đỏ */
-  color: white; /* Màu chữ */
-  border: none; /* Bỏ viền */
-  border-radius: 4px; /* Bo góc */
-  padding: 10px 20px; /* Kích thước nút */
-  font-size: 16px; /* Cỡ chữ */
-  cursor: pointer; /* Hiển thị con trỏ chuột */
-}
-/* Hiệu ứng hover cho nút "Duyệt tất cả" */
-.action-btn.approve-all-btn:hover {
-  background-color: #45a049; /* Màu khi rê chuột qua nút */
-}
-
-/* Hiệu ứng hover cho nút "Từ chối tất cả" */
-.action-btn.reject-all-btn:hover {
-  background-color: #d32f2f; /* Màu khi rê chuột qua nút */
-}
   /* Footer styles */
   footer {
     background-color: #222;

@@ -9,13 +9,19 @@ header {
     position: relative;
     height: auto;
     padding: 15px 0;
-    background-color: #003366;
+    background-color: #3f5469;
+    border: 1px solid #333;
   }
   header::before {
     position: absolute;
     content: "";
     height: 100%;
     width: 100%;
+  }
+  .status-form, .categories{
+    padding: 10px;
+    border-radius: 6px;
+    color: #333;
   }
   
   nav {
@@ -24,15 +30,9 @@ header {
     z-index: 1;
   }
   nav .logo{
-    margin-left: 80px;
+    margin-left: 90px;
   }
-  nav .logo a {
-    text-decoration: none;
-    color: rgb(224, 224, 115);
-    font-size: 30px;
-    font-weight: 600;
-   
-  }
+
   nav .menu {
     display: flex;
     align-items: center;
@@ -69,6 +69,8 @@ header {
   }
   
   .admin-info {
+    position: relative; /* Quan trọng để dropdown bám đúng vị trí */
+    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -76,7 +78,8 @@ header {
     font-size: 13px;
     font-weight: bold;
     text-decoration: underline;
-    margin-left: 140px;
+    margin-left: auto;
+    margin-right: 20px;
   }
   
   .admin-info img {
@@ -90,7 +93,7 @@ header {
     cursor: pointer; /* Thêm hiệu ứng khi hover */
     transition: transform 0.3s ease; /* Thêm hiệu ứng cho việc xoay */
   }
-  /* Hiển thị text "Đăng xuất" khi hover vào biểu tượng */
+  
   .admin-info:hover .logout-text {
     display: inline;
   }
@@ -99,15 +102,31 @@ header {
   .admin-info i:hover {
     transform: rotate(180deg); /* Xoay 180 độ khi hover vào icon */
   }
-   /* Ẩn text "Đăng xuất" mặc định */
-   .logout-text {
-    display: none;
-    color: white;
+  .dropdown-menu {
+    position: absolute;
+    top: 40px; /* Đặt dưới admin-info */
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: none; /* Ẩn menu ban đầu */
+    flex-direction: column;
+    z-index: 10;
+  }
+  
+  .dropdown-menu .dropdown-btn {
+    padding: 10px 15px;
+    border: none;
+    background-color: transparent;
+    text-align: left;
     font-size: 14px;
-    margin-left: 10px;
-    background: none; /* Xóa nền */
-    border: none; /* Xóa border */
-    cursor: pointer; /* Hiệu ứng khi di chuột */
+    cursor: pointer;
+  }
+  
+  .dropdown-menu .dropdown-btn:hover {
+    background-color: #f3f3f3;
+    color: #007BFF;
   }
   
 /* Main content styles */
@@ -235,16 +254,16 @@ main{
     border-radius: 5px;
 }
 
-#id, #created_at {
+#id{
     background-color: #d69696;
 }
 
 /* Style for the action buttons (Cập nhật and Xóa) */
 .action-buttons {
     display: flex;
-    gap: 170px;
+    gap: 180px;
     margin-top: 70px;
-    justify-content: center;  
+    margin-left: 100px;  
     margin-bottom: 40px;
 }
 
@@ -276,28 +295,28 @@ main{
 }
 
 .duan-avatar .duan1{
-    height: 230px;
+    height: 170px;
     position: absolute; /* Định vị tương đối đến vùng chứa */
     top: 180px; /* Điều chỉnh khoảng cách từ trên xuống */
     right: 170px; /* Căn sát góc phải */
     text-align: center; /* Căn giữa nội dung (ảnh và nút nếu thêm sau này) */
 }
 .duan-avatar .duan2{
+    height: 170px;
     position: absolute; /* Định vị tương đối đến vùng chứa */
-    top: 430px; /* Điều chỉnh khoảng cách từ trên xuống */
+    top: 380px; /* Điều chỉnh khoảng cách từ trên xuống */
     right: 50px; /* Căn sát góc phải */
     text-align: center; /* Căn giữa nội dung (ảnh và nút nếu thêm sau này) */
 }
 .duan-avatar .duan3{
-    height: 250px;
+    height: 210px;
     position: absolute; /* Định vị tương đối đến vùng chứa */
-    top: 660px; /* Điều chỉnh khoảng cách từ trên xuống */
+    top: 580px; /* Điều chỉnh khoảng cách từ trên xuống */
     right: 170px; /* Căn sát góc phải */
     text-align: center; /* Căn giữa nội dung (ảnh và nút nếu thêm sau này) */
 }
 .duan-avatar img{
     width: 350px;
-    height: 200px;
     border-radius: 10%;
     border: 2px solid #ccc;
     object-fit: cover; /* Đảm bảo ảnh vừa khung */

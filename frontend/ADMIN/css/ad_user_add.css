@@ -25,14 +25,7 @@
     z-index: 1;
   }
   nav .logo{
-    margin-left: 80px;
-  }
-  nav .logo a {
-    text-decoration: none;
-    color: rgb(224, 224, 115);
-    font-size: 30px;
-    font-weight: 600;
-   
+    margin-left: 90px;
   }
   nav .menu {
     display: flex;
@@ -70,6 +63,8 @@
   }
   
   .admin-info {
+    position: relative; /* Quan trọng để dropdown bám đúng vị trí */
+    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -92,19 +87,6 @@
     transition: transform 0.3s ease; /* Thêm hiệu ứng cho việc xoay */
   }
   
-  /* Ẩn text "Đăng xuất" mặc định */
-  .logout-text {
-    display: none;
-    color: white;
-    font-size: 14px;
-    margin-left: 10px;
-    background: none; /* Xóa nền */
-    border: none; /* Xóa border */
-    cursor: pointer; /* Hiệu ứng khi di chuột */
-  }
-  
-  
-  /* Hiển thị text "Đăng xuất" khi hover vào biểu tượng */
   .admin-info:hover .logout-text {
     display: inline;
   }
@@ -112,6 +94,32 @@
   /* Thêm hiệu ứng xoay cho biểu tượng khi hover */
   .admin-info i:hover {
     transform: rotate(180deg); /* Xoay 180 độ khi hover vào icon */
+  }
+  .dropdown-menu {
+    position: absolute;
+    top: 40px; /* Đặt dưới admin-info */
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: none; /* Ẩn menu ban đầu */
+    flex-direction: column;
+    z-index: 10;
+  }
+  
+  .dropdown-menu .dropdown-btn {
+    padding: 10px 15px;
+    border: none;
+    background-color: transparent;
+    text-align: left;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu .dropdown-btn:hover {
+    background-color: #f3f3f3;
+    color: #007BFF;
   }
   
   /* Main content styles */

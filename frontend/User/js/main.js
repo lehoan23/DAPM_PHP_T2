@@ -104,33 +104,6 @@ $(document).ready(function(){
     });
 
 //Xử lí đăng nhập/đăng xuất
-    function updateUI() {
-      const isLoggedIn = localStorage.getItem('isLoggedIn');
-      const authContainer = document.getElementById('auth-container');
-      const userInfo = document.getElementById('user-info');
-      const userName = document.getElementById('user-name');
-      const logoutBtn = document.getElementById('logout-btn');
-
-      if (isLoggedIn === 'true') {
-
-          authContainer.style.display = 'none';
-          userInfo.style.display = 'block';
-          userName.textContent = localStorage.getItem('userName');
-      } else {
-
-          authContainer.style.display = 'block';
-          userInfo.style.display = 'none';
-      }
-    }
-
-    function logout() {
-      localStorage.removeItem('isLoggedIn');
-      localStorage.removeItem('userName');
-      updateUI();
-    }
-
-    updateUI();
-    document.getElementById('logout-btn')?.addEventListener('click', logout);
 
 //Hiển thị % theo progess
     const progressBar = document.getElementById('progress-bar');

@@ -59,7 +59,7 @@
     <div class="container">
         <h1>🎉 Email Verified Successfully!</h1>
         <p>Thank you for verifying your email. Now, you can change the password.</p>
-        <a href="{{ url('http://127.0.0.1:5500/frontend/reset-password.html') }}" class="btn">Go to change password</a>
+        <a href="{{ url('http://127.0.0.1:5502/login.html') }}" class="btn">Go to change password</a>
         <div class="footer">
             &copy; {{ date('Y') }} GiveNow. All rights reserved.
         </div>

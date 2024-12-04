@@ -29,3 +29,10 @@
 .projects-list .card {
     padding: 20px;
 }
+
+.img-project{
+    width: 100%;
+    height: 250px;
+    max-height: 250px;
+    object-fit: cover;
+}
