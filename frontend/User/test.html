@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách dự án</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .project {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .project img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .project h3 {
+            margin-top: 0;
+        }
+        .project p {
+            margin: 5px 0;
+        }
+        .project span {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Danh sách dự án</h1>
+    <div id="project-list">
+        <!-- Dự án sẽ được hiển thị ở đây -->
+    </div>
+    <script>
+        const apiURL = "http://127.0.0.1:8000/api/get-list-project";
+    
+        // Hàm để xử lý và hiển thị thông tin dự án
+        function displayProjects(projects) {
+            const projectList = document.getElementById('project-list');
+    
+            // Duyệt qua các dự án và tạo giao diện HTML
+            projects.map(project => {
+                const projectDiv = document.createElement('div');
+                projectDiv.classList.add('project');
+    
+                projectDiv.innerHTML = `
+                    <img src="${project.LinkImage}" alt="${project.name}">
+                    <h3>${project.name}</h3>
+                    <p><span>Mô tả:</span> ${project.description}</p>
+                    <p><span>Danh mục:</span> ${project.Category}</p>
+                    <p><span>Mục tiêu:</span> ${parseFloat(project.goal_amount).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
+                    <p><span>Số tiền đã quyên góp:</span> ${parseFloat(project.collected_amount).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
+                    <p><span>Trạng thái:</span> ${project.status}</p>
+                    <p><span>Ngày bắt đầu:</span> ${project.start_date}</p>
+                    <p><span>Ngày kết thúc:</span> ${project.end_date}</p>
+                    <p><span>Người tạo:</span> ${project.Creator}</p>
+                `;
+    
+                projectList.appendChild(projectDiv);
+            });
+        }
+    
+        // Hàm gọi API và xử lý dữ liệu
+        function fetchProjects() {
+            fetch(apiURL)
+                .then(response => response.json())
+                .then(data => {
+                    const projects = data.data;
+                    displayProjects(projects);  // Gọi hàm displayProjects để hiển thị dữ liệu
+                })
+                .catch(error => {
+                    console.error('Error fetching project data:', error);
+                });
+        }
+    
+        // Gọi hàm fetchProjects để bắt đầu
+        fetchProjects();
+    </script>
+    
+</body>
+</html>

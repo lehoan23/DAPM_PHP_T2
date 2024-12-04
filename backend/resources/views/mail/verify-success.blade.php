@@ -59,7 +59,7 @@
     <div class="container">
         <h1>🎉 Email Verified Successfully!</h1>
         <p>Thank you for verifying your email. Your account is now active, and you can log in to start using our services.</p>
-        <a href="{{ url('http://127.0.0.1:5500/frontend/login.html') }}" class="btn">Go to Login</a>
+        <a href="{{ url('http://127.0.0.1:5502/login.html') }}" class="btn">Go to Login</a>
         <div class="footer">
             &copy; {{ date('Y') }} GiveNow. All rights reserved.
         </div>

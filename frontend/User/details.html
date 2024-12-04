@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Chi tiết dự án</title>
     <!-- Link to external CSS file -->
-    <link rel="stylesheet" href="css/linearicons.css">=
+    <link rel="stylesheet" href="css/linearicons.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/magnific-popup.css">
     <link rel="stylesheet" href="css/nice-select.css">
@@ -15,6 +17,7 @@
     <link rel="stylesheet" href="css/detail.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
 
@@ -33,18 +36,18 @@
                             <a href="#about">Về chúng tôi</a>
                             <a href="#donate">Ủng hộ</a>
                             <div id="auth-container">
-                                <a href="./signup.html" id="signup-link">Đăng ký</a>| 
-                                <a href="./login.html" id="login-link">Đăng nhập</a> 
+                                <a href="./signup.html" id="signup-link">Đăng ký</a>|
+                                <a href="./login.html" id="login-link">Đăng nhập</a>
                             </div>
                             <div id="user-info" style="display: none;">
                                 <span id="user-name"></span>
                                 <div id="user-dropdown" class="dropdown-menu" style="display: none;">
                                     <a href="">Trang cá nhân</a>
                                     <a href="./history.html">Dự án đã ủng hộ</a>
-                                    <a href="#">Cài đặt</a>
+                                    <a href="./newPassword.html">Đặt lại mật khẩu</a>
                                 </div>
                                 <button id="logout-btn">Đăng xuất</button>
-                            </div>									
+                            </div>
                         </nav>
                         <div class="menu-bar"><span class="lnr lnr-menu"></span></div>
                     </div>
@@ -57,94 +60,86 @@
         <div id="progression-studios-page-title-container">
             <div class="width-container-pro">
                 <h2 class="page-title">Nội dung dự án</h2>
-                <p style="color: rgb(211, 211, 211);">Dự án thiện nguyện giúp đỡ những hoàn cảnh khó khăn</p> 
+                <p style="color: rgb(211, 211, 211);">Dự án thiện nguyện giúp đỡ những hoàn cảnh khó khăn</p>
             </div><!-- #progression-studios-page-title-container -->
         </div><!-- close .width-container-pro -->
 
         <div id="page-title-overlay-image"></div>
     </div>
-    
+
 
     <section id="project-details" class="project-details">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
                     <div class="project-image">
-                        <img src="img/p1.jpg" alt="Chi tiết dự án">
-                        <div class="label-overlay">Trẻ em</div>
+                        <img src="img/p1.jpg" alt="Chi tiết dự án" class="image-details">
+                        <div class="label-overlay" id="cate-name"></div>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="project-info">
-                        <h2>Dự án thiện nguyện giúp đỡ trẻ em nghèo có hoàn cảnh khó khăn</h2>
+                        <h2 id="project-name"></h2>
                         <div class="campaign-info">
                             <div class="author-title">
                                 <div class="fund-info">
-                                    <img src="https://givenow.vn/wp-content/uploads/2022/08/NBTT1-e1664447215874.jpeg" alt="Fund Avatar" style="width:48px;height:48px">
-                                    <a href="#">Quỹ từ thiện ước mơ</a>
+                                    <img src="https://givenow.vn/wp-content/uploads/2022/08/NBTT1-e1664447215874.jpeg"
+                                        alt="Fund Avatar" style="width:48px;height:48px">
+                                    <a href="#" id="creator"></a>
                                 </div>
                                 <div class="d-none support-count d-md-block">
-                                    <i class="far person"><img class="me-2" src="https://givenow.vn/wp-content/themes/funlin-progression-child/images/icons/icon_user2.svg"></i>
-                                    <span>203 lượt ủng hộ</span>
+                                    <i class="far person"><img class="me-2"
+                                            src="https://givenow.vn/wp-content/themes/funlin-progression-child/images/icons/icon_user2.svg"></i>
+                                    <span id="luotungho"></span>
                                 </div>
                             </div>
                             <section id="project-progressdetails">
-								<div class="progress-containerdetails">
+                                <div class="progress-containerdetails">
                                     <span id="progress-textdetails"></span>
-									<progress id="progress-bardetails" value="50" max="100"></progress>
-								</div> 
-								<div class="progress-infodetails">
-									<div class="donated-amountdetails">
-										<strong>Hiện tại:</strong> <span id="donated-amountdetails">8.005.500đ</span>
-									</div>
-									<div class="goal-amountdetails">
-										<strong>Mục tiêu:</strong> <span id="goal-amountdetails">80.005.500đ</span>
-									</div>
-								</div>
-							</section>    
+                                    <progress id="progress-bardetails" value="50" max="100"></progress>
+                                </div>
+                                <div class="progress-infodetails">
+                                    <div class="donated-amountdetails">
+                                        <strong>Hiện tại:</strong> <span id="donated-amountdetails"></span>
+                                    </div>
+                                    <div class="goal-amountdetails">
+                                        <strong>Mục tiêu:</strong> <span id="goal-amountdetails"></span>
+                                    </div>
+                                </div>
+                            </section>
                         </div>
                         <div class="donate-input-container">
                             <a>VNĐ</a>
                             <input type="number" id="donate-amount" value="50000" min="20000" step="1000">
-                            <a href="#donate" class="btn btn-donate">Ủng hộ ngay</a>
+                            <button type="button" class="btn btn-donate" name="redirect">Ủng hộ ngay</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
-    
+
+
     <div id="donate-form-container" class="donate-form-overlay" style="display: none;">
         <div class="donate-form">
             <h2>Thông tin ủng hộ</h2>
             <form id="donate-form">
-                <label for="donor-name">Họ tên người ủng hộ<span class="required">*</span></label>
-                <input type="text" id="donor-name" placeholder="Nhập họ tên của bạn" required>
-    
-                <label for="donor-phone">Số điện thoại</label>
-                <input type="tel" id="donor-phone" placeholder="Nhập số điện thoại của bạn">
-    
-                <label for="donor-address">Địa chỉ</label>
-                <input type="text" id="donor-address" placeholder="Nhập địa chỉ của bạn">
-    
-                <label for="donor-email">Email<span class="required">*</span></label>
-                <input type="email" id="donor-email" placeholder="Nhập email của bạn" required>
-    
+                <!-- <label for="donor-name">Họ tên người ủng hộ</label>
+                <input type="text" id="donor-name" placeholder="Nhập họ tên của bạn"> -->
+
                 <label for="donate-amount-form">Số tiền ủng hộ<span class="required">*</span></label>
                 <input type="number" id="donate-amount-form" value="50000" min="20000" step="1000" required>
 
                 <div class="border-bottom"></div>
-    
+
+                <!-- <p class="note" style="margin: auto;">Chúng tôi xác nhận là bạn đã đồng ý với <a href="#"
+                        style="color: #f40f68;;">điều khoản</a>
+                    của chúng tôi</p> -->
+
                 <button type="submit" class="btn btn-primary">Ủng hộ</button>
-                <p class="note" style="margin: auto;">Chúng tôi xác nhận là bạn đã đồng ý với <a href="#" style="color: #f40f68;;">điều khoản</a>
-                    của chúng tôi</p>
             </form>
         </div>
     </div>
-    
-
-    
 
     <div class="container">
         <p class="content">Nội dung</p>
@@ -152,42 +147,53 @@
         <div class="wpneo-tab">
             <div class="col-lg-7 elementor-widget-container">
 
-                <p style="font-weight: 400;">Chào đời vào tháng 9.2023, tại xã Thạnh Bình, huyện Tân Biên, tỉnh Tây Ninh, cậu bé Duy Khương không may mắn mắc căn bệnh tim bẩm sinh thể nặng.</p>
+                <p style="font-weight: 400;" id="description"></p>
                 <img src="img/p1.jpg" alt="" class="image-details">
-                <p style="font-weight: 400;">Ngặt nỗi trong căn nhà đơn sơ, mọi chi tiêu của cả nhà 4 người chỉ gói gọn trong thu nhập 6 triệu làm thuê hàng tháng của ba Duy Khương. Khi được chẩn đoán bé hở van ba lá trung bình nặng, cần một khoản chi phí lớn để phẫu thuật, con số vượt xa rất nhiều khả năng của gia đình. </p>
                 <div class="elementor-container">
-                    <span>Toàn bộ số tiền quyên góp từ cộng đồng sẽ tự động chuyển thẳng tới Quỹ từ thiện Nâng bước tuổi thơ (không qua GiveNow) để tiến hành hỗ trợ viện phí điều trị cho bé Nguyễn Duy Khương. Thông tin cập nhật về chương trình sẽ được cập nhật tại mục Báo cáo của dự án này.</span>
+                    <span>Toàn bộ số tiền quyên góp từ cộng đồng sẽ tự động chuyển thẳng tới Quỹ từ thiện Nâng bước tuổi
+                        thơ (không qua GiveNow) để tiến hành hỗ trợ viện phí điều trị cho bé Nguyễn Duy Khương. Thông
+                        tin cập nhật về chương trình sẽ được cập nhật tại mục Báo cáo của dự án này.</span>
                 </div>
-            </div>  
-            
+            </div>
+
             <div class="col-lg-4 funlin-tab-campaign-story-right">
                 <p>Thông tin tổ chức gây quỹ</p>
                 <div class="right-campaign-story-tab-fund-name">
-                    <img src="https://givenow.vn/wp-content/uploads/2022/08/NBTT1-e1664447215874.jpeg" alt="Fund Avatar" style="width:50px;height:50px">
-                    <a href="#">Quỹ từ thiện ước mơ</a>
+                    <img src="https://givenow.vn/wp-content/uploads/2022/08/NBTT1-e1664447215874.jpeg" alt="Fund Avatar"
+                        style="width:50px;height:50px">
+                    <a href="#" id="creator-2"></a>
                 </div>
                 <div class="fund-descr">
-                    <p>“Nâng Bước Tuổi Thơ là tổ chức từ thiện duy nhất tại Việt Nam cung cấp chuyên môn điều trị bệnh lý; phẫu thuật đa khoa theo tiêu chuẩn quốc tế cho trẻ em dị tật bẩm sinh có hoàn cảnh khó khăn. Thắp sáng bởi ngọn lửa của tình thương vô điều kiện, Quỹ Nâng Bước Tuổi Thơ ấp ủ khát vọng cùng sứ mệnh mang tới cơ thể lành lặn và tương lai tốt đẹp nhất cho những trẻ em kém may mắn trên khắp mọi miền đất Việt.”</p>
+                    <p>“Nâng Bước Tuổi Thơ là tổ chức từ thiện duy nhất tại Việt Nam cung cấp chuyên môn điều trị bệnh
+                        lý; phẫu thuật đa khoa theo tiêu chuẩn quốc tế cho trẻ em dị tật bẩm sinh có hoàn cảnh khó khăn.
+                        Thắp sáng bởi ngọn lửa của tình thương vô điều kiện, Quỹ Nâng Bước Tuổi Thơ ấp ủ khát vọng cùng
+                        sứ mệnh mang tới cơ thể lành lặn và tương lai tốt đẹp nhất cho những trẻ em kém may mắn trên
+                        khắp mọi miền đất Việt.”</p>
                     <div class="fund-addr">
-                        <img src="https://givenow.vn/wp-content/themes/funlin-progression/images/internet.png" style="padding-right:11px;color:#A7A7A7;width: 30px">
+                        <img src="https://givenow.vn/wp-content/themes/funlin-progression/images/internet.png"
+                            style="padding-right:11px;color:#A7A7A7;width: 30px">
                         <a href="https://nangbuoctuoitho.org">https://nangbuoctuoitho.org</a>
                     </div>
                     <div class="fund-addr">
-                        <img src="https://givenow.vn/wp-content/uploads/2020/01/address-2.svg" style="padding-right:11px;color:#A7A7A7;">Tầng 6, SGR.O1-606, Saigon Royal, 34-35 Bến Vân Đồn, Phường 13, Quận 4, TP. Hồ Chí Minh
+                        <img src="https://givenow.vn/wp-content/uploads/2020/01/address-2.svg"
+                            style="padding-right:11px;color:#A7A7A7;"><span id="address"></span>
                     </div>
-                        <div class="fund-phone">
-                            <img src="https://givenow.vn/wp-content/uploads/2020/01/phone-2.svg" style="padding-right:11px;color:#A7A7A7;">Hotline: <a style="color:#F9153E;font-weight:500;">0903035030</a>
-                        </div>
-                        <div class="fund-mail">
-                            <img src="https://givenow.vn/wp-content/uploads/2020/01/mail-2.svg" style="padding-right:11px;color:#A7A7A7;">contact@children-of-vietnam.org            
-                        </div>
+                    <div class="fund-phone">
+                        <img src="https://givenow.vn/wp-content/uploads/2020/01/phone-2.svg"
+                            style="padding-right:11px;color:#A7A7A7;">Hotline: <a
+                            style="color:#F9153E;font-weight:500;"><span id="phoneNumber"></span></a>
+                    </div>
+                    <div class="fund-mail">
+                        <img src="https://givenow.vn/wp-content/uploads/2020/01/mail-2.svg"
+                            style="padding-right:11px;color:#A7A7A7;"><span id="email"></span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="progression-studios-related-campaigns">
-        
+
     </div>
 
     <!-- start footer Area -->
@@ -212,9 +218,11 @@
     </footer>
 
 
-    
+
     <script src="js/vendor/jquery-2.2.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
     <script src="js/jquery.ajaxchimp.min.js"></script>
     <script src="js/jquery.nice-select.min.js"></script>
@@ -225,5 +233,136 @@
     <script src="js/main.js"></script>
     <script src="js/details.js"></script>
     <script src="js/header.js"></script>
+    <script src="js/callAjaxGlobal.js"></script>
+    <script>
+
+        let userId = "";
+
+        jQuery(document).ready(function () {
+            const token = localStorage.getItem("mytokelogin");
+
+            if (token) {
+                document.getElementById('auth-container').style.display = 'none';
+                document.getElementById('user-info').style.display = 'block';
+                getName();
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const projectId = urlParams.get('id');
+
+            if (projectId) {
+                loadProjectDetail(projectId);
+            }
+        });
+
+        document.getElementById('donate-form').addEventListener('submit', function (e) {
+            e.preventDefault();  // Ngăn form gửi dữ liệu theo cách truyền thống
+
+            const projectId = new URLSearchParams(window.location.search).get('id');
+            const donateAmount = document.getElementById('donate-amount-form').value;
+
+            // Tạo đối tượng dữ liệu sẽ gửi
+            const data = {
+                project_id: projectId,
+                amount: donateAmount,
+                user_id: userId
+            };
+            console.log(data)
+            const ajaxCall = callApiGlobal.postRequestGlobalWithCrsf("/create-payment", data);
+            ajaxCall.done(function (response) {
+                if (response.status === "success") {
+                    // Nếu phản hồi thành công, chuyển hướng đến trang thanh toán của VNPAY
+                    console.log(response.session)
+                    window.location.href = response.payment_url;
+
+                } else {
+                    // Nếu có lỗi, hiển thị thông báo cho người dùng
+                    alert("Đã có lỗi xảy ra. Vui lòng thử lại.");
+                }
+            });
+            ajaxCall.fail(function (xhr) {
+                if (xhr.status === 422) {
+                    // Nếu lỗi 422, chuyển hướng sang trang đăng nhập
+                    window.location.href = "./login.html";
+                } else {
+                    alert("Không thể kết nối đến server. Vui lòng thử lại.");
+                }
+            })
+        });
+
+
+        function loadProjectDetail(projectId) {
+            const url = `/api/get-detail-project/${projectId}`; // API lấy chi tiết dự án theo ID
+
+            const ajaxCall = callApiGlobal.getRequestGlobal(url);
+            ajaxCall.done(function (data) {
+                // Hiển thị thông tin chi tiết dự án
+                document.getElementById('project-name').textContent = data.name;  // Tên dự án
+                document.getElementById('description').textContent = data.description; // Mô tả dự án
+                document.getElementById('goal-amountdetails').textContent = formatCurrency(data.goal_amount); // Mục tiêu
+                document.getElementById('donated-amountdetails').textContent = formatCurrency(data.collected_amount); // Đã quyên góp
+                document.getElementById('progress-bardetails').value = (data.collected_amount / data.goal_amount) * 100; // Tiến độ
+                document.getElementById('creator').textContent = data.Creator;  // Tên người tạo
+                document.getElementById('creator-2').textContent = data.Creator;
+                document.getElementById('cate-name').textContent = data.Category; // Danh mục
+                document.getElementById('luotungho').textContent = `Số lượt ủng hộ ${data.LuotUngHo}`; // Số lượt ủng hộ
+
+                // Cập nhật thông tin quỹ
+                const images = document.querySelectorAll('.image-details');
+                images.forEach(image => {
+                    image.src = _apiLinkGlobal + "/" + data.LinkImage; // data.LinkImage chứa link ảnh
+                });
+                // document.('image-details').src = data.LinkImage; // Ảnh dự án
+                document.getElementById('address').textContent = data.Address; // Địa chỉ
+                document.getElementById('email').textContent = data.Email; // Email
+                document.getElementById('phoneNumber').textContent = data.PhoneNumber; // Số điện thoại
+
+                // Cập nhật thông tin tiến trình dự án
+                document.getElementById('progress-textdetails').textContent = `${Math.round((data.collected_amount / data.goal_amount) * 100)}%`;
+            });
+            ajaxCall.fail(function (xhr) {
+                // Xử lý lỗi
+                console.error('Lỗi khi tải thông tin dự án:', xhr);
+            });
+        }
+
+        function formatCurrency(amount) {
+            return parseFloat(amount).toLocaleString('vi-VN') + 'đ';
+        }
+
+        function getName() {
+            var url = "/api/auth/me";
+
+            const ajaxCall = callApiGlobal.getRequestGlobal(url);
+            ajaxCall.done(function (data) {
+                userId = data.id;
+                const userName = data.username;
+                document.getElementById('user-name').textContent = userName;
+            });
+            ajaxCall.fail(function (xhr) {
+                // swal("Lỗi", "Đăng nhập không thành công. Vui lòng thử lại sau.", "error");
+            });
+        }
+
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userName');
+
+        }
+        function logout(event) {
+            event.preventDefault();
+
+            localStorage.removeItem("mytokelogin");
+            localStorage.removeItem("myrefreshlogin");
+
+            window.location.href = "./login.html";
+        }
+
+        document.getElementById('logout-btn')?.addEventListener('click', logout);
+    </script>
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+	<df-messenger intent="WELCOME" chat-title="AI_chatbox_support" agent-id="19afccd8-a91f-405d-a74d-7da21e9234c7"
+		language-code="vi"></df-messenger>
 </body>
+
 </html>

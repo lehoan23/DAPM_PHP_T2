@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Mail\VerifyEmail;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Support\Facades\Hash;
+
 class AuthController extends Controller
 {
     /**
@@ -96,6 +99,81 @@ class AuthController extends Controller
         // Trả về token và thông báo vai trò
         return $this->respondWithToken($token, $refreshToken, $roleMessage);
     }
+
+    // /**
+
+    //  * Create a new controller instance.
+
+    //  *
+
+    //  * @return void
+
+    //  */
+
+    // public function redirectToGoogle()
+    // {
+
+    //     return Socialite::driver('google')->redirect();
+
+    // }
+
+    // /**
+
+    //  * Create a new controller instance.
+
+    //  *
+
+    //  * @return void
+
+    //  */
+
+    // public function handleGoogleCallback()
+    // {
+
+    //     try {
+
+    //         $user = Socialite::driver('google')->user();
+
+    //         $finduser = User::where('google_id', $user->id)->first();
+    //         $token = JWTAuth::fromUser($finduser);
+    //         if ($finduser) {
+
+    //             Auth::login($finduser);
+    //             // Trả về token
+    //             return response()->json(['token' => $token]);
+
+    //         } else {
+
+    //             $newUser = User::updateOrCreate(['email' => $user->email], [
+
+    //                 'username' => $user->name,
+
+    //                 'google_id' => $user->id,
+
+    //                 'password' => bcrypt('123456789'),
+    //                 'role_id' => 3,
+
+    //             ]);
+
+    //             Auth::login($newUser);
+    //             dd($token);
+    //             // Trả về token
+    //             // Trả về token cho frontend
+    //             return response()->json([
+    //                 'access_token' => $token,
+    //                 'token_type' => 'bearer',
+    //                 'expires_in' => JWTAuth::factory()->getTTL() * 60,
+    //             ]);
+
+    //         }
+
+    //     } catch (Exception $e) {
+
+    //         dd($e->getMessage());
+
+    //     }
+
+    // }
 
     public function me()
     {
@@ -219,45 +297,34 @@ class AuthController extends Controller
         Mail::to($email)->send(new VerifyEmail($actionURL));
         return response()->json(['message' => 'Please verify your email.'], 201);
     }
-    public function updatePassword(Request $request)
+
+    public function ResetPassword(Request $request)
     {
-        // Lấy thông tin user hiện tại từ token
-        $currentUser = auth('api')->user();
-    
-        if (!$currentUser) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-    
-        $new_password = $request->input('password');
-    
-        // Thực hiện xác thực dữ liệu
-        $validator = Validator::make($request->all(), [
-            'password' => 'required|confirmed|min:8',
-        ], [
-            'password.required' => 'Hãy nhập password',
-            'password.min' => 'Password phải tối thiểu 8 kí tự',
-            'password.confirmed' => 'Password phải trùng khớp',
-        ]);
-    
-        // Kiểm tra nếu xác thực thất bại
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-    
-        // Kiểm tra token trong bảng `password_reset_tokens`
-        $token_changed_password = DB::table('password_reset_tokens')->where('email', $currentUser->email)->first();
-    
-        if ($token_changed_password && $token_changed_password->token === null) {
-            // Cập nhật mật khẩu mới
-            DB::table('users')->where('id', $currentUser->id)->update([
-                'password' => Hash::make($new_password)
-            ]);
-    
-            return response()->json(['message' => 'Password updated successfully'], 200);
-        } else {
-            return response()->json(['error' => 'Invalid token'], 404);
-        }
+             // Lấy thông tin user hiện tại từ token
+             $currentUser = auth('api')->user();
+             $id = auth('api')->user()->id;
+     
+             if (!$currentUser) {
+                 return response()->json(['error' => 'Unauthorized'], 401);
+             }
+             $validated = $request->validate([
+                 'password' => 'required|confirmed|min:8',
+             ],
+                 [
+                     'password.required' => 'Hãy nhập password',
+                     'password.confirmed' => 'Trung password',
+                     'password.min:8' => 'Password phai dai hon 8 ki tu',
+                 ]);
+     
+             $user = User::find($id);
+             if (!$user) {
+                 return response()->json(['error' => 'User not found'], 404);
+             }
+     
+             $user->update([
+                 'password' => bcrypt(request()->password),
+             ]);
+             return response()->json(['message' => 'Password updated successfully']);
     }
-    
 
 }

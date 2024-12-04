@@ -11,10 +11,67 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
     //
+    public function getAllListProject(Request $request){
+        try {
+            // Get the limit for pagination from the query string, default to 10 if not provided
+            $limit = $request->input('limit', 10);
+    
+            // Query with joins and aggregate for support count
+            $listProject = Project::where("projects.id", "!=", "0")
+                ->join('users', 'projects.create_by', '=', 'users.id')
+                ->join('categories', 'projects.cate_id', '=', 'categories.id')
+                ->join('images', 'projects.id', '=', 'images.project_id')
+                ->leftJoin('payments', 'projects.id', '=', 'payments.project_id')
+                ->select(
+                    'projects.*',
+                    'users.username as Creator',
+                    'images.link as LinkImage',
+                    'users.address as Address',
+                    'users.email as Email',
+                    'users.phone_number as PhoneNumber',
+                    'categories.name as Category',
+                    DB::raw('COUNT(payments.id) as LuotUngHo') // Count the number of payments per project
+                )
+                ->groupBy(
+                    'projects.id',
+                    'projects.name',
+                    'projects.description',
+                    'projects.goal_amount',
+                    'projects.collected_amount',
+                    'projects.start_date',
+                    'projects.end_date',
+                    'projects.status',
+                    'projects.create_by',
+                    'projects.created_at',
+                    'projects.updated_at',
+                    'projects.deleted_at',
+                    'projects.cate_id',
+                    'users.username',
+                    'images.link',
+                    'users.address',
+                    'users.email',
+                    'users.phone_number',
+                    'categories.name'
+                )
+                ->paginate($limit); // Paginate the result based on the limit
+    
+            // Check if the query returns any results
+            if ($listProject->isNotEmpty()) {
+                return response()->json($listProject);
+            } else {
+                // Return a 404 error if no projects are found
+                return response()->json(['error' => 'Project not found'], 404);
+            }
+        } catch (\Exception $e) {
+            // Return a 500 error with the exception message in case of failure
+            return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
+        }
+    }
     public function createProject(Request $request)
     {
         try {
@@ -106,8 +163,9 @@ class AdminController extends Controller
 
             $request = Project::where("projects.id", $id)
                 ->join('users', 'projects.create_by', '=', 'users.id')
+                ->join('categories', 'projects.cate_id', '=', 'categories.id')
                 ->join('images','projects.id', '=', 'images.project_id')
-                ->select('projects.*', 'users.username as Creator','images.link as LinkImage')
+                ->select('projects.*', 'users.username as Creator','images.link as LinkImage','categories.name as CategoryName')
                 ->first();
 
             if ($request) {
@@ -163,12 +221,11 @@ class AdminController extends Controller
                     ], 422);
                 }
                 $project->update([
-                    'name' => $request['name'],
-                    'description' => $request('description'),
-                    'goal_amount' => $request('goal_amount'),
-                    // 'status' => $request->input('status'),
-                    'end_date' => $request('end_date'),
-                    'cate_id' => $request('cate_id'),
+                    'name' => $request->input('name'),
+                    'description' => $request->input('description'),
+                    'goal_amount' => $request->input('goal_amount'),
+                    'end_date' => $request->input('end_date'),
+                    'cate_id' => $request->input('cate_id'),
                 ]);
                 return response()->json([
                     "data" => $project,
@@ -242,19 +299,6 @@ class AdminController extends Controller
 
     }
 
-    public function getListPendingProject()
-    {
-        // Lấy thông tin user hiện tại từ token
-        $currentUser = auth('api')->user();
-        // $id = auth('api')->user()->id;
-
-        if (!$currentUser) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-        $pendingProjects = PendingProject::with('creator')->get();
-
-        return response()->json($pendingProjects, 200);
-    }
 
     // Duyệt dự án
     public function approve($id)
@@ -341,17 +385,29 @@ class AdminController extends Controller
     }
     //xem thông tin người dùng theo id 
     public function getUserEdit($id){
-        $currentUser = auth('api')->user();
-        // $id = auth('api')->user()->id;
+        try {
+            // Lấy thông tin user hiện tại từ token
+            $currentUser = auth('api')->user();
+            // $id = auth('api')->user()->id;
 
-        if (!$currentUser) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-        $user = User::find($id);
-        if ($user) {
-            return response()->json($user, 200);
-        } else {
-            return response()->json(['error' => 'User not found'], 404);
+            if (!$currentUser) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+
+            $request = User::where("users.id", $id)
+                ->join('roles', 'users.role_id', '=', 'roles.id')
+                ->select('users.*', 'roles.name as Role')
+                ->first();
+
+            if ($request) {
+                return response()->json($request);
+            } else {
+                // If not found, return a 404 error with a message
+                return response()->json(['error' => 'Not found User'], 404);
+            }
+        } catch (\Exception $e) {
+            // Return a 500 error with the exception message in case of failure
+            return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
         }
     }
     //update thông tin người dùng 

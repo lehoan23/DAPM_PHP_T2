@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Image;
 use App\Models\User;
+use App\Models\Payment;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Project extends Model
 {
     use HasFactory;
@@ -31,7 +33,11 @@ class Project extends Model
         return $this->belongsTo(User::class, 'create_by');
     }
     public function images()
-{
-    return $this->hasMany(Image::class, 'id_project');
-}
+    {
+        return $this->hasMany(Image::class, 'id_project');
+    }
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'project_id', 'id');
+    }
 }

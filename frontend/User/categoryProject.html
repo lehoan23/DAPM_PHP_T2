@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh mục dự án</title>
+  <!-- Link to external CSS file -->
+  <link rel="stylesheet" href="css/linearicons.css">=
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/magnific-popup.css">
+  <link rel="stylesheet" href="css/nice-select.css">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="css/bootstrap.css"> -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/detail.css">
+  <link rel="stylesheet" href="css/project.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+
+  <!-- Start Header Area -->
+  <header class="default-header">
+    <div class="container">
+      <div class="header-wrap">
+        <div class="header-top d-flex justify-content-between align-items-center ">
+          <div class="logo">
+            <a href="./index.html"><img src="img/logo.png" alt=""></a>
+          </div>
+          <div class="main-menubar d-flex align-items-center">
+            <nav class="nav-menu">
+              <a href="./index.html">Trang chủ</a>
+              <a href="./project.html">Dự án</a>
+              <a href="#about">Về chúng tôi</a>
+              <a href="#donate">Ủng hộ</a>
+              <div id="auth-container">
+                <a href="./signup.html" id="signup-link">Đăng ký</a>|
+                <a href="./login.html" id="login-link">Đăng nhập</a>
+              </div>
+              <div id="user-info" style="display: none;">
+                <span id="user-name"></span>
+                <div id="user-dropdown" class="dropdown-menu" style="display: none;">
+                  <a href="">Trang cá nhân</a>
+                  <a href="./history.html">Dự án đã ủng hộ</a>
+                  <a href="./newPassword.html">Đặt lại mật khẩu</a>
+                </div>
+                <button id="logout-btn">Đăng xuất</button>
+              </div>
+            </nav>
+            <div class="menu-bar"><span class="lnr lnr-menu"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div id="page-title-pro">
+    <div id="progression-studios-page-title-container">
+      <div class="width-container-pro">
+        <h2 class="page-title">Trẻ em</h2>
+        <p style="color: rgb(211, 211, 211);">Dự án thiện nguyện giúp đỡ những hoàn cảnh khó khăn</p>
+      </div><!-- #progression-studios-page-title-container -->
+    </div><!-- close .width-container-pro -->
+
+    <div id="page-title-overlay-image"></div>
+  </div>
+
+  <div class="campaigns-running container">
+    <div class="row row-cols-1 row-cols-md-3 g-4 projects-list">
+
+
+    </div>
+  </div>
+
+  <!-- start footer Area -->
+  <footer class="footer-area section-gap">
+    <div></div>
+    <div class="container">
+      <div class="row d-flex flex-column justify-content-center">
+        <ul class="footer-menu">
+          <li><a href="#">Trang chủ</a></li>
+          <li><a href="#project">Dự án</a></li>
+          <li><a href="#about">Về chúng tôi</a></li>
+          <li><a href="#donate">Ủng hộ</a></li>
+        </ul>
+        <div class="footer-social">
+          <a href="#"><i class="fa fa-facebook"></i></a>
+          <a href="#"><i class="fa fa-twitter"></i></a>
+          <a href="#"><i class="fa fa-dribbble"></i></a>
+          <a href="#"><i class="fa fa-behance"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+
+  <script src="js/vendor/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+    integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+    crossorigin="anonymous"></script>
+  <script src="js/vendor/bootstrap.min.js"></script>
+  <script src="js/jquery.ajaxchimp.min.js"></script>
+  <script src="js/jquery.nice-select.min.js"></script>
+  <script src="js/jquery.sticky.js"></script>
+  <script src="js/parallax.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/callAjaxGlobal.js"></script>
+  <script>
+    jQuery(document).ready(function () {
+      const token = localStorage.getItem("mytokelogin");
+
+      if (token) {
+        document.getElementById('auth-container').style.display = 'none';
+        document.getElementById('user-info').style.display = 'block';
+        getName();
+      }
+      loadCategoryProjects();
+    });
+
+    function getCategoryIdFromURL() {
+      const urlParams = new URLSearchParams(window.location.search); // Lấy tham số từ URL
+      return urlParams.get('id'); // Lấy giá trị của tham số 'id'
+    }
+
+
+    function loadCategoryProjects() {
+      const categoryId = getCategoryIdFromURL();  // Lấy id từ URL
+      const url = `/api/category/${categoryId}`;  // Sử dụng id để gọi API
+
+      const ajaxCall = callApiGlobal.getRequestGlobalDelayNoToken(url);
+      ajaxCall.done(function (data) {
+        const projects = data;  // Dữ liệu trả về là danh sách các dự án trong danh mục
+        const projectsContainer = document.querySelector('.projects-list'); // Lấy phần tử container để hiển thị dự án
+        projectsContainer.innerHTML = ''; // Xóa nội dung hiện tại trong phần hiển thị
+
+        // Lặp qua các dự án và tạo các thẻ HTML cho từng dự án
+        projects.forEach(project => {
+          const projectCard = `
+                <div class="col">
+                    <div class="card h-100 border-0 shadow">
+                        <a href="./details.html?id=${project.id}">
+                            <img src="${_apiLinkGlobal}/${project.LinkImage}" class="card-img-top img-project" alt="${project.name}">
+                        </a>
+                        <div class="label-overlay">${project.Category}</div>
+                        <section id="project-progress">
+                            <div class="progress-container">
+                                <span id="progress-text" style="left: calc(${(project.collected_amount / project.goal_amount) * 100}% - 10px);"></span>
+                                <progress id="progress-bar" value="${(project.collected_amount / project.goal_amount) * 100}" max="100"></progress>
+                            </div>
+
+                            <div class="progress-info">
+                                <div class="donated-amount">
+                                    <strong>Hiện tại:</strong> <span id="donated-amount">${formatCurrency(project.collected_amount)}</span>
+                                </div>
+                                <div class="goal-amount">
+                                    <strong>Mục tiêu:</strong> <span id="goal-amount">${formatCurrency(project.goal_amount)}</span>
+                                </div>
+                            </div>
+                        </section>
+                        <div class="card-body">
+                            <h5 class="card-title">${project.name}</h5>
+                            <p class="card-text">${project.description}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+          // Thêm thẻ mới vào container
+          projectsContainer.innerHTML += projectCard;
+        });
+      });
+
+      ajaxCall.fail(function (xhr, textStatus, errorThrown) {
+        console.error("Error fetching category projects:", textStatus, errorThrown);
+      });
+    }
+
+
+
+    function formatCurrency(amount) {
+      return parseFloat(amount).toLocaleString('vi-VN') + 'đ';
+    }
+
+
+    function getName() {
+      var url = "/api/auth/me";
+
+      const ajaxCall = callApiGlobal.getRequestGlobal(url);
+      ajaxCall.done(function (data) {
+        const userName = data.username;
+        document.getElementById('user-name').textContent = userName;
+      });
+      ajaxCall.fail(function (xhr) {
+        // swal("Lỗi", "Đăng nhập không thành công. Vui lòng thử lại sau.", "error");
+      });
+    }
+
+    function logout() {
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('userName');
+
+    }
+    function logout(event) {
+      event.preventDefault();
+
+      localStorage.removeItem("mytokelogin");
+      localStorage.removeItem("myrefreshlogin");
+
+      window.location.href = "./login.html";
+    }
+
+    document.getElementById('logout-btn')?.addEventListener('click', logout);
+  </script>
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+	<df-messenger intent="WELCOME" chat-title="AI_chatbox_support" agent-id="19afccd8-a91f-405d-a74d-7da21e9234c7"
+		language-code="vi"></df-messenger>
+</body>
+
+</html>

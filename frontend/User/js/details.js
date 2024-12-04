@@ -26,11 +26,11 @@ document.addEventListener('DOMContentLoaded', function () {
         donateFormContainer.style.display = 'flex';
     });
 
-    donateForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        alert('Cảm ơn bạn đã ủng hộ!');
-        donateFormContainer.style.display = 'none';
-    });
+    // donateForm.addEventListener('submit', function (e) {
+    //     e.preventDefault();
+    //     alert('Cảm ơn bạn đã ủng hộ!');
+    //     donateFormContainer.style.display = 'none';
+    // });
 
     donateFormContainer.addEventListener('click', function (e) {
         if (e.target === donateFormContainer) {

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AuthController;
+
 use App\Http\Controllers\Creator\CategoryController;
 use App\Http\Controllers\Creator\CreatorController;
 use App\Http\Controllers\GeneralController;
@@ -39,6 +40,7 @@ Route::group([
     Route::post('/refresh', [AuthController::class, 'refresh'])->middleware('auth:api')->name('refresh');
     Route::get('/me', [AuthController::class, 'me'])->middleware('auth:api')->name('me');
     Route::put('/update-me', [AuthController::class, 'updateProfile'])->middleware('auth:api');
+    Route::put('/reset_password', [AuthController::class,'ResetPassword'])->middleware('auth:api');
     Route::get('/verify-email', function (Request $request) {
         // Lấy token từ URL
         $token = $request->query('token');
@@ -60,28 +62,35 @@ Route::group([
     
         return response('Invalid or expired token.', 400);
     });
-    Route::post('/send-mail/reset-password', [AuthController::class, 'sendMailResetPassword'])->middleware('auth:api');
-    Route::get('/verify-password', function (Request $request) {
-        // Lấy token từ URL
-        $token = $request->query('token');
-        // Kiểm tra token trong cơ sở dữ liệu
-        $password_reset_tokens = DB::table('password_reset_tokens')->where('token', $token)->first();
-        if ($password_reset_tokens) {
-            // Xác nhận email
-            DB::table('password_reset_tokens')
-                ->where('email', $password_reset_tokens->email)
-                ->update([
-                    'token' => null, // Xóa token sau khi xác nhận
-                ]);
-                return view('mail.verify-change-success');
-        }
-        return response('Invalid or expired token.', 400);
-    });
-    Route::put('/update-password', [AuthController::class,'updatePassword'])->middleware('auth:api');
+    // Route::post('/send-mail/reset-password', [AuthController::class, 'sendMailResetPassword'])->middleware('auth:api');
+    // Route::get('/verify-password', function (Request $request) {
+    //     // Lấy token từ URL
+    //     $token = $request->query('token');
+    //     // Kiểm tra token trong cơ sở dữ liệu
+    //     $password_reset_tokens = DB::table('password_reset_tokens')->where('token', $token)->first();
+    //     if ($password_reset_tokens) {
+    //         // Xác nhận email
+    //         DB::table('password_reset_tokens')
+    //             ->where('email', $password_reset_tokens->email)
+    //             ->update([
+    //                 'token' => null, // Xóa token sau khi xác nhận
+    //             ]);
+    //             return view('mail.verify-change-success');
+    //     }
+    //     return response('Invalid or expired token.', 400);
+    // });
     //Nhungx route có role là user
     Route::group(['middleware' => ['auth:api', 'auth.user']], function () {
         Route::get('/get-registered-project', [PaymentController::class, 'getRegisteredProject']);
         Route::post('/create-payment', [PaymentController::class, 'createPayment']);
+    });
+    Route::group(['middleware' => ['auth:api','auth.admin-creator']],function(){
+        //get my list project
+        Route::get('/project', [CreatorController::class, 'getAllListProject']);
+        Route::post('/project-create', [CreatorController::class, 'createProject']);
+        Route::get('/project-edit/{id}', [CreatorController::class, 'getEditProject']);
+        Route::put('/project-update/{id}', [CreatorController::class, 'updateProject']);
+        Route::get('/getAllProject',[AdminController::class, 'getAllListProject']);
     });
     //Nhung route co role la creator : done
     Route::group(['middleware' => ['auth:api', 'auth.creator']], function () {
@@ -101,8 +110,6 @@ Route::group([
 
     //Nhung route co role la admin 
     Route::group(['middleware' => ['auth:api', 'auth.admin']], function () {
-        //lay danh sach pending project
-        Route::get('/admin/pending_project', [AdminController::class, 'getListPendingProject']);
         //Duyet project
         Route::post('/admin/approve-project/{id}', [AdminController::class, 'approve']);
         //Tu choi project
@@ -133,6 +140,7 @@ Route::group([
     });
 
 });
+
 // những route không cần đăng nhập để xem: api/...
 //1. Danh sách toàn bộ projects hiển thị ở trang chủ hoặc trang dự án
 Route::get('/get-list-project', [GeneralController::class, 'getListProjects']);
@@ -140,3 +148,6 @@ Route::get('/get-list-project', [GeneralController::class, 'getListProjects']);
 Route::get('/get-detail-project/{id}', [GeneralController::class, 'getDetailProjects']);
 //3. Danh sach category
 Route::get('/category', [CategoryController::class, 'getCategories']);
+Route::get('/category/{id}', [CategoryController::class, 'getListProjectByCateId']);
+// sendMail
+Route::post('/reset-password', [GeneralController::class, 'sendMailResetPassword']);
