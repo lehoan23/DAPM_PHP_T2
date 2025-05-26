@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Mail\MyTestEmail;
 use App\Mail\ResetPassword;
+use App\Models\Payment;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
+use App\Http\Controllers\User\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,3 +37,7 @@ Route::get('/testemail', function () {
     $name = "funny Coder";
     Mail::to('levanbinhdinh22@gmail.com')->send(new MyTestEmail($name));
 });
+
+Route::get('/payment', [PaymentController::class, 'paymentCreate']);
+Route::post('/create-payment', [PaymentController::class, 'createPayment'])->name('payment.create');
+Route::get('/checkout', [PaymentController::class, 'checkoutPayment'])->name('vnpay.return');

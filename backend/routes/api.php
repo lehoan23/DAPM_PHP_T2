@@ -81,7 +81,9 @@ Route::group([
     //Nhungx route có role là user
     Route::group(['middleware' => ['auth:api', 'auth.user']], function () {
         Route::get('/get-registered-project', [PaymentController::class, 'getRegisteredProject']);
-        Route::post('/create-payment', [PaymentController::class, 'createPayment']);
+        // Route::post('/create-payment', [PaymentController::class, 'createPayment'])->name('payment.create');
+        // Route::get('/create-payment', [PaymentController::class, 'paymentCreate']);
+        // Route::post('/checkout', [PaymentController::class, 'checkoutPayment']);
     });
     //Nhung route co role la creator : done
     Route::group(['middleware' => ['auth:api', 'auth.creator']], function () {
@@ -140,3 +142,7 @@ Route::get('/get-list-project', [GeneralController::class, 'getListProjects']);
 Route::get('/get-detail-project/{id}', [GeneralController::class, 'getDetailProjects']);
 //3. Danh sach category
 Route::get('/category', [CategoryController::class, 'getCategories']);
+
+
+
+
